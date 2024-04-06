@@ -11,6 +11,11 @@ public class AvailableIngredient {
     private String name;
     private double quantity;
 
+    public AvailableIngredient(String name, double quantity) {
+        this.name = name;
+        this.quantity = quantity;
+    }
+
     public int getIngredientID() {
         return ingredientID;
     }

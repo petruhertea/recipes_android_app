@@ -38,7 +38,7 @@ public class IngredientViewModel extends AndroidViewModel {
         ingredientRepository.deleteAllData();;
     }
 
-    public LiveData<List<AvailableIngredient>> getAllNotes(){
+    public LiveData<List<AvailableIngredient>> getAllIngredients(){
         return availableIngredients;
     }
 }

@@ -9,7 +9,11 @@
         android:id="@+id/availableIngredientsFragment"
         android:name="com.example.recipes.AvailableIngredientsFragment"
         android:label="fragment_available_ingredients"
-        tools:layout="@layout/fragment_available_ingredients" />
+        tools:layout="@layout/fragment_available_ingredients" >
+        <action
+            android:id="@+id/action_availableIngredientsFragment_to_addIngredientFragment"
+            app:destination="@id/addIngredientFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.recipes.RecipesFragment"
@@ -28,5 +32,26 @@
         <argument
             android:name="recipeID"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addIngredientFragment"
+        android:name="com.example.recipes.fragment.AddIngredientFragment"
+        android:label="fragment_add_ingredient"
+        tools:layout="@layout/fragment_add_ingredient" >
+        <argument
+            android:name="ingredientID"
+            app:argType="integer"
+            android:defaultValue="-1"
+            />
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"
+            />
+        <argument
+            android:name="quantity"
+            app:argType="float"
+            android:defaultValue="0"/>
     </fragment>
 </navigation>

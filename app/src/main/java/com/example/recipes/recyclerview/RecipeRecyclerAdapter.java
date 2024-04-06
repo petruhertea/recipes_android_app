@@ -6,17 +6,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes.R;
 import com.example.recipes.models.RecipeDetails;
+import com.example.recipes.mvvm.IngredientViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 
     private List<RecipeDetails> recipeDetailsList;
     private OnRecipeItemClickListener clickListener;
+
 
     public void setRecipeList(List<RecipeDetails> recipeList) {
         this.recipeDetailsList = recipeList;
@@ -58,10 +62,12 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         }
     }
 
+
+
     @NonNull
     @Override
     public RecipeRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -82,6 +88,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public interface OnRecipeItemClickListener {
         void onRecipeItemClick(int position);
     }
+
 }
 
 

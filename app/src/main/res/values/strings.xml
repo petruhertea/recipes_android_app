@@ -10,4 +10,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ingrediente_disponibile">Ingrediente\nDisponibile</string>
     <string name="retete">Rețete</string>
+    <string name="nume">Nume</string>
+    <string name="cantitate">Cantitate</string>
+    <string name="adaug">Adaugă</string>
+    <string name="sterge">Șterge</string>
+    <string name="modifica">Modifică</string>
+    <string name="sterge_toate">Șterge toate</string>
 </resources>

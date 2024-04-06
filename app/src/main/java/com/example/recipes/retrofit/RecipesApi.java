@@ -18,4 +18,7 @@ public interface RecipesApi {
 
     @GET("/api/recipe")
     Call<RecipeDetails> getRecipeByID(@Query("recipe_id") Integer recipe_id);
+
+    @GET("/api/recipes/byIngredients")
+    Call<List<RecipeDetails>> getRecipesByIngredients(@Query("ingredients") List<String> ingredients);
 }

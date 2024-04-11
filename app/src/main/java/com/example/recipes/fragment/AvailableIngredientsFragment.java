@@ -1,4 +1,4 @@
-package com.example.recipes;
+package com.example.recipes.fragment;
 
 import android.os.Bundle;
 
@@ -15,10 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.recipes.R;
 import com.example.recipes.models.AvailableIngredient;
 import com.example.recipes.mvvm.IngredientViewModel;
 import com.example.recipes.recyclerview.AvailableIngredientAdapter;
@@ -34,6 +38,13 @@ public class AvailableIngredientsFragment extends Fragment {
     private AvailableIngredientAdapter availableIngredientAdapter;
     private IngredientViewModel ingredientViewModel;
     private NavController navController;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,5 +110,25 @@ public class AvailableIngredientsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MenuInflater menuInflater= Objects.requireNonNull(getActivity()).getMenuInflater();
+        menuInflater.inflate(R.menu.menu_delete_all,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId()==R.id.deleteAll){
+            ingredientViewModel.deleteAll();
+            Toast.makeText(getContext(), "Lista a fost golită", Toast.LENGTH_SHORT).show();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

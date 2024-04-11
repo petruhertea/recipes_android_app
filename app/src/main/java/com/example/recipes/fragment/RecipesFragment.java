@@ -1,4 +1,4 @@
-package com.example.recipes;
+package com.example.recipes.fragment;
 
 import android.os.Bundle;
 
@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.recipes.R;
 import com.example.recipes.models.AvailableIngredient;
 import com.example.recipes.models.RecipeDetails;
 import com.example.recipes.mvvm.IngredientViewModel;
@@ -39,7 +40,7 @@ public class RecipesFragment extends Fragment {
     private List<AvailableIngredient> availableIngredientList=new ArrayList<>();
 
     List<String> ingredientNames = new ArrayList<>();
-    double ingredientQuantities=0;
+    Double[] quantities;
 
     NavController navController;
 
@@ -66,8 +67,6 @@ public class RecipesFragment extends Fragment {
         RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter();
 
 
-
-
         adapter.setOnRecipeItemClickListener(new RecipeRecyclerAdapter.OnRecipeItemClickListener() {
             @Override
             public void onRecipeItemClick(int position) {
@@ -90,10 +89,14 @@ public class RecipesFragment extends Fragment {
                 for(AvailableIngredient ingredient : availableIngredientList){
                     ingredientNames.add(ingredient.getName());
                     Log.d("Ingredients", ingredient.getName());
-                    ingredientQuantities+=ingredient.getQuantity();
                 }
 
-                Log.d("Ingredients", String.valueOf(ingredientQuantities));
+                // Extract ingredient quantities from availableIngredientList
+                quantities = new Double[availableIngredientList.size()];
+                for (int i = 0; i < availableIngredientList.size(); i++) {
+                    quantities[i] = availableIngredientList.get(i).getQuantity();
+                }
+
 
                 if (!ingredientNames.isEmpty()){
 
@@ -101,8 +104,6 @@ public class RecipesFragment extends Fragment {
                         @Override
                         public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {
                             recipeDetailsList=recipeDetails;
-
-
                             adapter.setRecipeList(recipeDetailsList);
                             recyclerView.setAdapter(adapter);
                         }
@@ -140,7 +141,7 @@ public class RecipesFragment extends Fragment {
     public void getRecipeDetailsByIngredients(RecipeDetailsCallback callback) {
         RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
 
-        Call<List<RecipeDetails>> call = apiService.getRecipesByIngredients(ingredientNames);
+        Call<List<RecipeDetails>> call = apiService.getRecipesByIngredients(ingredientNames,quantities);
         call.enqueue(new Callback<List<RecipeDetails>>() {
             @Override
             public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {

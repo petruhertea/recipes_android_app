@@ -6,15 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes.R;
 import com.example.recipes.models.RecipeDetails;
-import com.example.recipes.mvvm.IngredientViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 

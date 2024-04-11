@@ -2,7 +2,6 @@ package com.example.recipes.retrofit;
 
 import com.example.recipes.models.BeverageDetails;
 
-
 import java.util.List;
 
 public interface BeverageDetailsCallback {

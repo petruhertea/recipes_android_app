@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipes.models.BeverageDetails;
 import com.example.recipes.R;
+import com.example.recipes.models.BeverageDetails;
 
 import java.util.List;
 

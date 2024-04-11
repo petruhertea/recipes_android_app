@@ -9,7 +9,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAvailableIngredients"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/available_ingredient_bg"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddIngredient"
@@ -21,6 +23,7 @@
         android:layout_marginEnd="16dp"
         app:srcCompat="@drawable/ic_baseline_add_24"
         android:clickable="true"
+        android:backgroundTint="@color/salmon_red"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

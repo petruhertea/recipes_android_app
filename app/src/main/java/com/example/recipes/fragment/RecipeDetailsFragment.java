@@ -42,14 +42,14 @@ public class RecipeDetailsFragment extends Fragment {
 
     RecipeDetails recipe;
 
-    private List<BeverageDetails> beverageDetailsList=new ArrayList<>();
+    private List<BeverageDetails> beverageDetailsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_recipe_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_details, container, false);
 
-        navController = Navigation.findNavController(requireActivity(),R.id.nav_host_main);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
 
         title = view.findViewById(R.id.tvRecipeTitle);
         instructions = view.findViewById(R.id.tvRecipeInstructions);
@@ -62,14 +62,14 @@ public class RecipeDetailsFragment extends Fragment {
         image = view.findViewById(R.id.imgRecipe);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGrid);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         BeverageRecyclerAdapter adapter = new BeverageRecyclerAdapter();
 
         getBeverageDetails(new BeverageDetailsCallback() {
 
             @Override
             public void onBeverageDetailsReceived(List<BeverageDetails> beverageDetails) {
-                beverageDetailsList=beverageDetails;
+                beverageDetailsList = beverageDetails;
                 adapter.setBeverageDetailsList(beverageDetails);
                 recyclerView.setAdapter(adapter);
             }
@@ -83,7 +83,7 @@ public class RecipeDetailsFragment extends Fragment {
         getRecipeDetails(new SingleRecipeCallback() {
             @Override
             public void onRecipeDetailsReceived(RecipeDetails recipeDetails) {
-                recipe=recipeDetails;
+                recipe = recipeDetails;
 
                 String bundleTitle, bundleDescription, bundleInstructions, bundleImage, bundleIngredients;
                 int bundleServings, bundleCookTime, bundlePrepTime, bundleTotalTime, bundleID;
@@ -119,11 +119,11 @@ public class RecipeDetailsFragment extends Fragment {
                     }
                 }
 
-                String[] cookingInstructionsArray=bundleInstructions.split("[.] ");
+                String[] cookingInstructionsArray = bundleInstructions.split("[.] ");
 
-                StringBuilder instructionsTextBuilder=new StringBuilder();
+                StringBuilder instructionsTextBuilder = new StringBuilder();
 
-                for(String instruction:cookingInstructionsArray){
+                for (String instruction : cookingInstructionsArray) {
                     instructionsTextBuilder.append(" - ").append(instruction).append(".").append("\n");
                 }
 
@@ -131,11 +131,11 @@ public class RecipeDetailsFragment extends Fragment {
                 String ingredientsText = getResources().getString(R.string.ingrediente) + ingredientTextBuilder;
 
                 serv = "Nr. de porții: " + bundleServings;
-                prep = "Timp pentru pregătire: " + bundlePrepTime+" min";
-                cook = "Timp de preparare: " + bundleCookTime+" min";
-                total = "Timp total: " + bundleTotalTime+" min";
+                prep = "Timp pentru pregătire: " + bundlePrepTime + " min";
+                cook = "Timp de preparare: " + bundleCookTime + " min";
+                total = "Timp total: " + bundleTotalTime + " min";
 
-                String cookDirections="Mod de preparare:\n"+instructionsTextBuilder;
+                String cookDirections = "Mod de preparare:\n" + instructionsTextBuilder;
 
                 title.setText(bundleTitle);
                 instructions.setText(cookDirections);
@@ -148,11 +148,10 @@ public class RecipeDetailsFragment extends Fragment {
 
                 byte[] imageBase64;
 
-                if(bundleImage!=null){
-                    imageBase64= Base64.decode(bundleImage, Base64.DEFAULT);
-                }
-                else{
-                    imageBase64=null;
+                if (bundleImage != null) {
+                    imageBase64 = Base64.decode(bundleImage, Base64.DEFAULT);
+                } else {
+                    imageBase64 = null;
                 }
                 Glide.with(getContext())
                         .load(imageBase64)
@@ -175,10 +174,10 @@ public class RecipeDetailsFragment extends Fragment {
     public void getRecipeDetails(SingleRecipeCallback callback) {
         RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
 
-        Bundle args=getArguments();
+        Bundle args = getArguments();
 
         assert args != null;
-        Integer recipeID=args.getInt("recipeID");
+        Integer recipeID = args.getInt("recipeID");
 
         Call<RecipeDetails> call = apiService.getRecipeByID(recipeID);
         call.enqueue(new Callback<RecipeDetails>() {
@@ -221,10 +220,10 @@ public class RecipeDetailsFragment extends Fragment {
         int bundleID = intent.getIntExtra("recipe_id", 0);
         */
 
-        Bundle args=getArguments();
+        Bundle args = getArguments();
 
         assert args != null;
-        Integer recipeID=args.getInt("recipeID");
+        Integer recipeID = args.getInt("recipeID");
         Call<List<BeverageDetails>> call = apiService.getAllSuggestions(recipeID);
         call.enqueue(new Callback<List<BeverageDetails>>() {
             @Override

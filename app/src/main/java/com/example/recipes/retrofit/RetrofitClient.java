@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL ="http://"+BuildConfig.SERVER_ADDRESS+":"+BuildConfig.SERVER_PORT;
+    private static final String BASE_URL = "http://" + BuildConfig.SERVER_ADDRESS + ":" + BuildConfig.SERVER_PORT;
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MB cache size
 

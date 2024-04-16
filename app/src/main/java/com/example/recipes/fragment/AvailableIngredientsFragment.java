@@ -86,9 +86,9 @@ public class AvailableIngredientsFragment extends Fragment {
                     Toast.makeText(getContext(), "Ingredient șters!", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    int ingredientID=availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getIngredientID();
-                    String name=availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getName();
-                    float quantity=(float) availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getQuantity();
+                    int ingredientID = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getIngredientID();
+                    String name = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getName();
+                    float quantity = (float) availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getQuantity();
 
                     AvailableIngredientsFragmentDirections.ActionAvailableIngredientsFragmentToAddIngredientFragment action = AvailableIngredientsFragmentDirections.actionAvailableIngredientsFragmentToAddIngredientFragment();
                     action.setIngredientID(ingredientID);
@@ -114,18 +114,18 @@ public class AvailableIngredientsFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        MenuInflater menuInflater= Objects.requireNonNull(getActivity()).getMenuInflater();
-        menuInflater.inflate(R.menu.menu_delete_all,menu);
+        MenuInflater menuInflater = Objects.requireNonNull(getActivity()).getMenuInflater();
+        menuInflater.inflate(R.menu.menu_delete_all, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId()==R.id.deleteAll){
+        if (item.getItemId() == R.id.deleteAll) {
             ingredientViewModel.deleteAll();
             Toast.makeText(getContext(), "Lista a fost golită", Toast.LENGTH_SHORT).show();
             return true;
-        }else{
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }

@@ -25,7 +25,10 @@ import com.example.recipes.retrofit.RecipesApi;
 import com.example.recipes.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -36,20 +39,17 @@ public class RecipesFragment extends Fragment {
 
     private List<RecipeDetails> recipeDetailsList = new ArrayList<>();
     IngredientViewModel ingredientViewModel;
-    private List<AvailableIngredient> availableIngredientList=new ArrayList<>();
-
-    List<String> ingredientNames = new ArrayList<>();
-    Double[] quantities;
-
+    private List<AvailableIngredient> availableIngredientList = new ArrayList<>();
+    List<String> ingredientsList = new ArrayList<>();
     NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_recipes, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipes, container, false);
 
-        navController= Navigation.findNavController(requireActivity(),R.id.nav_host_main);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
 
         setupViewModelAndRecyclerView(view);
 
@@ -58,7 +58,7 @@ public class RecipesFragment extends Fragment {
 
     }
 
-    public void setupViewModelAndRecyclerView(View view){
+    public void setupViewModelAndRecyclerView(View view) {
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewRecipes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -71,9 +71,9 @@ public class RecipesFragment extends Fragment {
             public void onRecipeItemClick(int position) {
                 RecipeDetails clickedRecipe = recipeDetailsList.get(position);
 
-                int recipeID=clickedRecipe.getRecipeID();
+                int recipeID = clickedRecipe.getRecipeID();
 
-                NavDirections action =RecipesFragmentDirections.actionRecipesFragmentToRecipeDetailsFragment(recipeID);
+                NavDirections action = RecipesFragmentDirections.actionRecipesFragmentToRecipeDetailsFragment(recipeID);
                 navController.navigate(action);
             }
         });
@@ -83,26 +83,20 @@ public class RecipesFragment extends Fragment {
         ingredientViewModel.getAllIngredients().observe(this, new Observer<List<AvailableIngredient>>() {
             @Override
             public void onChanged(List<AvailableIngredient> availableIngredients) {
-                availableIngredientList=availableIngredients;
+                availableIngredientList = availableIngredients;
 
-                for(AvailableIngredient ingredient : availableIngredientList){
-                    ingredientNames.add(ingredient.getName());
-                    Log.d("Ingredients", ingredient.getName());
-                }
-
-                // Extract ingredient quantities from availableIngredientList
-                quantities = new Double[availableIngredientList.size()];
-                for (int i = 0; i < availableIngredientList.size(); i++) {
-                    quantities[i] = availableIngredientList.get(i).getQuantity();
+                for (AvailableIngredient ingredient : availableIngredientList) {
+                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity();
+                    ingredientsList.add(formattedIngredient);
                 }
 
 
-                if (!ingredientNames.isEmpty()){
+                if (!(ingredientsList == null)) {
 
                     getRecipeDetailsByIngredients(new RecipeDetailsCallback() {
                         @Override
                         public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {
-                            recipeDetailsList=recipeDetails;
+                            recipeDetailsList = recipeDetails;
                             adapter.setRecipeList(recipeDetailsList);
                             recyclerView.setAdapter(adapter);
                         }
@@ -114,12 +108,11 @@ public class RecipesFragment extends Fragment {
                     });
 
 
-                }
-                else{
+                } else {
                     getRecipeDetails(new RecipeDetailsCallback() {
                         @Override
                         public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {
-                            recipeDetailsList=recipeDetails;
+                            recipeDetailsList = recipeDetails;
                             adapter.setRecipeList(recipeDetailsList);
                             recyclerView.setAdapter(adapter);
                         }
@@ -140,20 +133,14 @@ public class RecipesFragment extends Fragment {
     public void getRecipeDetailsByIngredients(RecipeDetailsCallback callback) {
         RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
 
-        Call<List<RecipeDetails>> call = apiService.getRecipesByIngredients(ingredientNames,quantities);
+        Call<List<RecipeDetails>> call = apiService.getRecipesByIngredients(
+                ingredientsList.toArray(new String[0])
+        );
         call.enqueue(new Callback<List<RecipeDetails>>() {
             @Override
             public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {
                 if (response.isSuccessful()) {
                     List<RecipeDetails> recipeDetails = response.body();
-                    /*
-                    for (RecipeDetails recipe : recipeDetails) {
-                        Log.d("RecipeTitle", recipe.getRecipeTitle());
-                        Log.d("RecipeImage",recipe.getRecipeImage());
-                        // Log other properties as needed...
-                    }
-                    */
-
                     if (callback != null) {
                         callback.onRecipeDetailsReceived(recipeDetails);
                     }

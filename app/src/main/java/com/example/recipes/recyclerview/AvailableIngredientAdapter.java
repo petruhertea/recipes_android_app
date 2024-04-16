@@ -17,55 +17,55 @@ import com.example.recipes.models.AvailableIngredient;
 public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient, AvailableIngredientAdapter.IngredientViewHolder> {
 
 
-    public AvailableIngredientAdapter(){
+    public AvailableIngredientAdapter() {
         super(DIFF_CALLBACK);
 
     }
 
 
-    public static final DiffUtil.ItemCallback<AvailableIngredient> DIFF_CALLBACK=new DiffUtil.ItemCallback<AvailableIngredient>() {
+    public static final DiffUtil.ItemCallback<AvailableIngredient> DIFF_CALLBACK = new DiffUtil.ItemCallback<AvailableIngredient>() {
         @Override
         public boolean areItemsTheSame(@NonNull AvailableIngredient oldItem, @NonNull AvailableIngredient newItem) {
-            return oldItem.getIngredientID()== newItem.getIngredientID();
+            return oldItem.getIngredientID() == newItem.getIngredientID();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull AvailableIngredient oldItem, @NonNull AvailableIngredient newItem) {
-            return oldItem.getName().equals(newItem.getName()) && oldItem.getQuantity()==newItem.getQuantity();
+            return oldItem.getName().equals(newItem.getName()) && oldItem.getQuantity() == newItem.getQuantity();
         }
     };
 
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.available_recipe_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.available_recipe_item, parent, false);
         return new IngredientViewHolder(view);
     }
 
-    public AvailableIngredient getIngredient(int position){
+    public AvailableIngredient getIngredient(int position) {
         return getItem(position);
     }
 
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
-        AvailableIngredient availableIngredient=getItem(position);
+        AvailableIngredient availableIngredient = getItem(position);
         holder.name.setText(availableIngredient.getName());
         holder.quantity.setText(String.valueOf(availableIngredient.getQuantity()));
 
     }
 
-    public static class IngredientViewHolder extends RecyclerView.ViewHolder{
+    public static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name,quantity;
+        TextView name, quantity;
         ImageView edit, delete;
 
         public IngredientViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name=itemView.findViewById(R.id.tvIngredientName);
-            quantity=itemView.findViewById(R.id.tvQuantity);
-            edit=itemView.findViewById(R.id.edit);
-            delete=itemView.findViewById(R.id.delete);
+            name = itemView.findViewById(R.id.tvIngredientName);
+            quantity = itemView.findViewById(R.id.tvQuantity);
+            edit = itemView.findViewById(R.id.edit);
+            delete = itemView.findViewById(R.id.delete);
 
         }
     }

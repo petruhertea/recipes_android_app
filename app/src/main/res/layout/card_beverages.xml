@@ -5,30 +5,28 @@
     android:layout_height="165dp"
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    >
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
-            android:background="@drawable/image_shape"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
             android:id="@+id/imgBeverage"
             android:layout_width="130dp"
-            android:layout_height="130dp"/>
+            android:layout_height="130dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/image_shape" />
+
         <TextView
             android:id="@+id/tvBeverageName"
-            android:text="@string/placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="18sp"
-            />
+            android:text="@string/placeholder"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

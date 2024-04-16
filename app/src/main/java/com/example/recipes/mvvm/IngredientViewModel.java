@@ -18,27 +18,29 @@ public class IngredientViewModel extends AndroidViewModel {
     public IngredientViewModel(@NonNull Application application) {
         super(application);
 
-        ingredientRepository=new IngredientRepository(application);
-        availableIngredients=ingredientRepository.getAllData();
+        ingredientRepository = new IngredientRepository(application);
+        availableIngredients = ingredientRepository.getAllData();
     }
 
-    public void insert(AvailableIngredient availableIngredient){
+    public void insert(AvailableIngredient availableIngredient) {
         ingredientRepository.insertData(availableIngredient);
     }
 
-    public void delete(AvailableIngredient availableIngredient){
+    public void delete(AvailableIngredient availableIngredient) {
         ingredientRepository.deleteData(availableIngredient);
     }
 
-    public void update(AvailableIngredient availableIngredient){
-        ingredientRepository.updateData(availableIngredient);;
+    public void update(AvailableIngredient availableIngredient) {
+        ingredientRepository.updateData(availableIngredient);
+        ;
     }
 
-    public void deleteAll(){
-        ingredientRepository.deleteAllData();;
+    public void deleteAll() {
+        ingredientRepository.deleteAllData();
+        ;
     }
 
-    public LiveData<List<AvailableIngredient>> getAllIngredients(){
+    public LiveData<List<AvailableIngredient>> getAllIngredients() {
         return availableIngredients;
     }
 }

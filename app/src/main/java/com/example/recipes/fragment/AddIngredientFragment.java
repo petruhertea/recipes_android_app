@@ -42,28 +42,27 @@ public class AddIngredientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_add_ingredient, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_ingredient, container, false);
 
-        navController = Navigation.findNavController(requireActivity(),R.id.nav_host_main);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
 
-        etName =view.findViewById(R.id.etName);
-        etQuantity =view.findViewById(R.id.etQuantity);
-        btnSave=view.findViewById(R.id.btnSave);
+        etName = view.findViewById(R.id.etName);
+        etQuantity = view.findViewById(R.id.etQuantity);
+        btnSave = view.findViewById(R.id.btnSave);
 
         ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(IngredientViewModel.class);
 
 
-        Bundle args=getArguments();
+        Bundle args = getArguments();
 
-        int id=args.getInt("ingredientID");
+        int id = args.getInt("ingredientID");
 
-        if (id!=-1){
+        if (id != -1) {
             getActivity().setTitle("Modifică ingredient");
             etName.setText(args.getString("name"));
             etQuantity.setText(String.valueOf(args.getFloat("quantity")));
             btnSave.setText(R.string.modifica);
-        }
-        else{
+        } else {
             getActivity().setTitle("Adaugă ingredient");
         }
 
@@ -73,21 +72,21 @@ public class AddIngredientFragment extends Fragment {
                 String name, quantityText;
 
                 name = etName.getText().toString();
-                quantityText=etQuantity.getText().toString();
+                quantityText = etQuantity.getText().toString();
 
-                if (name.trim().isEmpty() || quantityText.trim().isEmpty()){
+                if (name.trim().isEmpty() || quantityText.trim().isEmpty()) {
                     Toast.makeText(getContext(), "Toate câmpurile trebuie completate!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                double quantity=Double.parseDouble(quantityText);
+                double quantity = Double.parseDouble(quantityText);
 
-                if (id==-1) {
+                if (id == -1) {
                     AvailableIngredient availableIngredient = new AvailableIngredient(name, quantity);
                     ingredientViewModel.insert(availableIngredient);
                     navController.popBackStack();
                     Toast.makeText(getContext(), "Ingredient adăugat!", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     AvailableIngredient availableIngredient = new AvailableIngredient(name, quantity);
                     availableIngredient.setIngredientID(id);
                     ingredientViewModel.update(availableIngredient);

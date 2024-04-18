@@ -1,5 +1,6 @@
 package com.example.recipes.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,10 +11,23 @@ public class AvailableIngredient {
     private int ingredientID;
     private String name;
     private double quantity;
+    @ColumnInfo(name = "measure_unit")
+    private String measureUnit;
 
-    public AvailableIngredient(String name, double quantity) {
+
+
+    public AvailableIngredient(String name, double quantity,String measureUnit) {
         this.name = name;
         this.quantity = quantity;
+        this.measureUnit=measureUnit;
+    }
+
+    public String getMeasureUnit() {
+        return measureUnit;
+    }
+
+    public void setMeasureUnit(String measureUnit) {
+        this.measureUnit = measureUnit;
     }
 
     public int getIngredientID() {

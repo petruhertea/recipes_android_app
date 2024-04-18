@@ -25,10 +25,7 @@ import com.example.recipes.retrofit.RecipesApi;
 import com.example.recipes.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -86,13 +83,12 @@ public class RecipesFragment extends Fragment {
                 availableIngredientList = availableIngredients;
 
                 for (AvailableIngredient ingredient : availableIngredientList) {
-                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity();
+                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity()+" "+ingredient.getMeasureUnit();
                     ingredientsList.add(formattedIngredient);
                 }
 
 
-                if (!(ingredientsList == null)) {
-
+                if (!ingredientsList.isEmpty()) {
                     getRecipeDetailsByIngredients(new RecipeDetailsCallback() {
                         @Override
                         public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {

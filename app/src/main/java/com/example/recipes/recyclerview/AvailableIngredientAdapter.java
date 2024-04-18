@@ -51,12 +51,13 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
         AvailableIngredient availableIngredient = getItem(position);
         holder.name.setText(availableIngredient.getName());
         holder.quantity.setText(String.valueOf(availableIngredient.getQuantity()));
-
+        String txtUnit=" "+availableIngredient.getMeasureUnit();
+        holder.unit.setText(txtUnit);
     }
 
     public static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, quantity;
+        TextView name, quantity, unit;
         ImageView edit, delete;
 
         public IngredientViewHolder(@NonNull View itemView) {
@@ -66,7 +67,7 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
             quantity = itemView.findViewById(R.id.tvQuantity);
             edit = itemView.findViewById(R.id.edit);
             delete = itemView.findViewById(R.id.delete);
-
+            unit= itemView.findViewById(R.id.tvMeasureUnit);
         }
     }
 }

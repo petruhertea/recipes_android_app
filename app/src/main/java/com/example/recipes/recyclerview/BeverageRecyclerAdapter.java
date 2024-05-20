@@ -37,9 +37,7 @@ public class BeverageRecyclerAdapter extends RecyclerView.Adapter<BeverageRecycl
 
         holder.getTvBeverageName().setText(beverageDetails.getBeverageSuggestions());
 
-        byte[] imageBase64 = Base64.decode(beverageDetails.getBeverageImage(), Base64.DEFAULT);
-
-        Glide.with(holder.itemView.getContext()).load(imageBase64).override(150, 150)
+        Glide.with(holder.itemView.getContext()).load(beverageDetails.getBeverageImage()).override(150, 150)
                 .centerCrop().into(holder.getImgBeverage());
 
     }

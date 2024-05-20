@@ -146,6 +146,7 @@ public class RecipeDetailsFragment extends Fragment {
                 totalTime.setText(total);
                 ingredients.setText(ingredientsText);
 
+                /*
                 byte[] imageBase64;
 
                 if (bundleImage != null) {
@@ -153,8 +154,10 @@ public class RecipeDetailsFragment extends Fragment {
                 } else {
                     imageBase64 = null;
                 }
+                */
+
                 Glide.with(getContext())
-                        .load(imageBase64)
+                        .load(bundleImage)
                         .override(150, 150) // Resize the image to 150x150 pixels
                         .centerCrop() // Crop the image if necessary
                         .placeholder(R.drawable.ic_baseline_question_mark_24)

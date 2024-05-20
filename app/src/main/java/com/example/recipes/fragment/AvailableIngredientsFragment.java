@@ -89,7 +89,7 @@ public class AvailableIngredientsFragment extends Fragment {
                     int ingredientID = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getIngredientID();
                     String name = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getName();
                     float quantity = (float) availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getQuantity();
-                    String measureUnit=availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getMeasureUnit();
+                    String measureUnit = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getMeasureUnit();
 
                     AvailableIngredientsFragmentDirections.ActionAvailableIngredientsFragmentToAddIngredientFragment action = AvailableIngredientsFragmentDirections.actionAvailableIngredientsFragmentToAddIngredientFragment();
                     action.setIngredientID(ingredientID);

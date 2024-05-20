@@ -14,6 +14,7 @@ public class RetrofitClient {
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MB cache size
 
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

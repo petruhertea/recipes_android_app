@@ -24,27 +24,6 @@ public class BeverageRecyclerAdapter extends RecyclerView.Adapter<BeverageRecycl
         this.beverageDetailsList = beverageDetails;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView tvBeverageName;
-        private final ImageView imgBeverage;
-
-        public TextView getTvBeverageName() {
-            return tvBeverageName;
-        }
-
-        public ImageView getImgBeverage() {
-            return imgBeverage;
-        }
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            tvBeverageName = (TextView) itemView.findViewById(R.id.tvBeverageName);
-            imgBeverage = (ImageView) itemView.findViewById(R.id.imgBeverage);
-        }
-    }
-
     @NonNull
     @Override
     public BeverageRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,5 +47,26 @@ public class BeverageRecyclerAdapter extends RecyclerView.Adapter<BeverageRecycl
     @Override
     public int getItemCount() {
         return beverageDetailsList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView tvBeverageName;
+        private final ImageView imgBeverage;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tvBeverageName = (TextView) itemView.findViewById(R.id.tvBeverageName);
+            imgBeverage = (ImageView) itemView.findViewById(R.id.imgBeverage);
+        }
+
+        public TextView getTvBeverageName() {
+            return tvBeverageName;
+        }
+
+        public ImageView getImgBeverage() {
+            return imgBeverage;
+        }
     }
 }

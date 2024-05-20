@@ -52,8 +52,8 @@
             app:argType="float" />
         <argument
             android:name="measureUnit"
+            android:defaultValue="null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null" />
+            app:nullable="true" />
     </fragment>
 </navigation>

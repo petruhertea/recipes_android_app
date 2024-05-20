@@ -17,12 +17,6 @@ import com.example.recipes.models.AvailableIngredient;
 public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient, AvailableIngredientAdapter.IngredientViewHolder> {
 
 
-    public AvailableIngredientAdapter() {
-        super(DIFF_CALLBACK);
-
-    }
-
-
     public static final DiffUtil.ItemCallback<AvailableIngredient> DIFF_CALLBACK = new DiffUtil.ItemCallback<AvailableIngredient>() {
         @Override
         public boolean areItemsTheSame(@NonNull AvailableIngredient oldItem, @NonNull AvailableIngredient newItem) {
@@ -34,6 +28,12 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
             return oldItem.getName().equals(newItem.getName()) && oldItem.getQuantity() == newItem.getQuantity();
         }
     };
+
+
+    public AvailableIngredientAdapter() {
+        super(DIFF_CALLBACK);
+
+    }
 
     @NonNull
     @Override
@@ -51,7 +51,7 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
         AvailableIngredient availableIngredient = getItem(position);
         holder.name.setText(availableIngredient.getName());
         holder.quantity.setText(String.valueOf(availableIngredient.getQuantity()));
-        String txtUnit=" "+availableIngredient.getMeasureUnit();
+        String txtUnit = " " + availableIngredient.getMeasureUnit();
         holder.unit.setText(txtUnit);
     }
 
@@ -67,7 +67,7 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
             quantity = itemView.findViewById(R.id.tvQuantity);
             edit = itemView.findViewById(R.id.edit);
             delete = itemView.findViewById(R.id.delete);
-            unit= itemView.findViewById(R.id.tvMeasureUnit);
+            unit = itemView.findViewById(R.id.tvMeasureUnit);
         }
     }
 }

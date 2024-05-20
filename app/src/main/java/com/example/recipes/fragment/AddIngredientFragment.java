@@ -56,12 +56,12 @@ public class AddIngredientFragment extends Fragment {
         etName = view.findViewById(R.id.etName);
         etQuantity = view.findViewById(R.id.etQuantity);
         btnSave = view.findViewById(R.id.btnSave);
-        measureUnitSpinner=view.findViewById(R.id.measureUnitSpinner);
+        measureUnitSpinner = view.findViewById(R.id.measureUnitSpinner);
 
         ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(IngredientViewModel.class);
 
 
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getContext(),R.array.unit_masura,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.unit_masura, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -70,7 +70,7 @@ public class AddIngredientFragment extends Fragment {
         measureUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                measureUnit=adapterView.getItemAtPosition(i).toString();
+                measureUnit = adapterView.getItemAtPosition(i).toString();
             }
 
             @Override
@@ -88,11 +88,11 @@ public class AddIngredientFragment extends Fragment {
             getActivity().setTitle("Modifică ingredient");
             etName.setText(args.getString("name"));
             etQuantity.setText(String.valueOf(args.getFloat("quantity")));
-            measureUnit=args.getString("measureUnit");
+            measureUnit = args.getString("measureUnit");
             int spinnerPosition = adapter.getPosition(measureUnit);
             measureUnitSpinner.setSelection(spinnerPosition);
 
-            if (measureUnit==null){
+            if (measureUnit == null) {
                 measureUnitSpinner.setSelection(0);
             }
 

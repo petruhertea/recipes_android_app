@@ -13,14 +13,14 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "SERVER_ADDRESS",'"'+System.getenv("SERVER_ADDRESS")+'"'
-        buildConfigField "String", "SERVER_PORT",'"'+System.getenv("SERVER_PORT")+'"'
+        buildConfigField "String", "SERVER_ADDRESS", '"' + System.getenv("SERVER_ADDRESS") + '"'
+        buildConfigField "String", "SERVER_PORT", '"' + System.getenv("SERVER_PORT") + '"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        debug{
+        debug {
 
         }
         release {

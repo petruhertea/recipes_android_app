@@ -8,6 +8,22 @@ public class RecipeDetails {
 
     @SerializedName("recipeTitle")
     private String recipeTitle;
+    @SerializedName("recipeDescription")
+    private String recipeDescription;
+    @SerializedName("recipeInstructions")
+    private String recipeInstructions;
+    @SerializedName("servings")
+    private int servings;
+    @SerializedName("prep_time_minutes")
+    private int prepTimeMinutes;
+    @SerializedName("cook_time_minutes")
+    private int cookTimeMinutes;
+    @SerializedName("total_time_minutes")
+    private int totalTimeMinutes;
+    @SerializedName("recipeImage")
+    private String recipeImage;
+    @SerializedName("ingredients")
+    private String ingredients;
 
     public int getRecipeID() {
         return recipeID;
@@ -16,30 +32,6 @@ public class RecipeDetails {
     public void setRecipeID(int recipeID) {
         this.recipeID = recipeID;
     }
-
-    @SerializedName("recipeDescription")
-    private String recipeDescription;
-
-    @SerializedName("recipeInstructions")
-    private String recipeInstructions;
-
-    @SerializedName("servings")
-    private int servings;
-
-    @SerializedName("prep_time_minutes")
-    private int prepTimeMinutes;
-
-    @SerializedName("cook_time_minutes")
-    private int cookTimeMinutes;
-
-    @SerializedName("total_time_minutes")
-    private int totalTimeMinutes;
-
-    @SerializedName("recipeImage")
-    private String recipeImage;
-
-    @SerializedName("ingredients")
-    private String ingredients;
 
     // Getters and setters
 

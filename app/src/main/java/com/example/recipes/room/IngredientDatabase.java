@@ -13,8 +13,6 @@ public abstract class IngredientDatabase extends RoomDatabase {
 
     public static IngredientDatabase instance;
 
-    public abstract IngredientDAO ingredientDAO();
-
     public static synchronized IngredientDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
@@ -24,4 +22,6 @@ public abstract class IngredientDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    public abstract IngredientDAO ingredientDAO();
 }

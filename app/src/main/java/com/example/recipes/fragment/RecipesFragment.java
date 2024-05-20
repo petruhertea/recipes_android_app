@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes.R;
 import com.example.recipes.models.AvailableIngredient;
+import com.example.recipes.models.IngredientDetails;
 import com.example.recipes.models.RecipeDetails;
 import com.example.recipes.mvvm.IngredientViewModel;
 import com.example.recipes.recyclerview.RecipeRecyclerAdapter;
@@ -25,8 +26,9 @@ import com.example.recipes.retrofit.RecipesApi;
 import com.example.recipes.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,11 +36,11 @@ import retrofit2.Response;
 
 public class RecipesFragment extends Fragment {
 
-    private List<RecipeDetails> recipeDetailsList = new ArrayList<>();
     IngredientViewModel ingredientViewModel;
-    private List<AvailableIngredient> availableIngredientList = new ArrayList<>();
     List<String> ingredientsList = new ArrayList<>();
     NavController navController;
+    private List<RecipeDetails> recipeDetailsList = new ArrayList<>();
+    private List<AvailableIngredient> availableIngredientList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,15 +77,15 @@ public class RecipesFragment extends Fragment {
             }
         });
 
-        ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(IngredientViewModel.class);
+        ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().getApplication())).get(IngredientViewModel.class);
 
-        ingredientViewModel.getAllIngredients().observe(this, new Observer<List<AvailableIngredient>>() {
+        ingredientViewModel.getAllIngredients().observe(getViewLifecycleOwner(), new Observer<List<AvailableIngredient>>() {
             @Override
             public void onChanged(List<AvailableIngredient> availableIngredients) {
                 availableIngredientList = availableIngredients;
 
                 for (AvailableIngredient ingredient : availableIngredientList) {
-                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity()+" "+ingredient.getMeasureUnit();
+                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity() + " " + ingredient.getMeasureUnit();
                     ingredientsList.add(formattedIngredient);
                 }
 
@@ -125,13 +127,16 @@ public class RecipesFragment extends Fragment {
         });
     }
 
-
     public void getRecipeDetailsByIngredients(RecipeDetailsCallback callback) {
         RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
 
-        Call<List<RecipeDetails>> call = apiService.getRecipesByIngredients(
-                ingredientsList.toArray(new String[0])
-        );
+        // Construct a map from the availableIngredientList
+        Map<String, IngredientDetails> ingredientMap = new HashMap<>();
+        for (AvailableIngredient ingredient : availableIngredientList) {
+            ingredientMap.put(ingredient.getName(), new IngredientDetails(ingredient.getQuantity(), ingredient.getMeasureUnit()));
+        }
+
+        Call<List<RecipeDetails>> call = apiService.postRecipesByIngredients(ingredientMap);
         call.enqueue(new Callback<List<RecipeDetails>>() {
             @Override
             public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {
@@ -156,7 +161,6 @@ public class RecipesFragment extends Fragment {
         });
     }
 
-
     public void getRecipeDetails(RecipeDetailsCallback callback) {
         RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
 
@@ -166,13 +170,6 @@ public class RecipesFragment extends Fragment {
             public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {
                 if (response.isSuccessful()) {
                     List<RecipeDetails> recipeDetails = response.body();
-                    /*
-                    for (RecipeDetails recipe : recipeDetails) {
-                        Log.d("RecipeTitle", recipe.getRecipeTitle());
-                        Log.d("RecipeImage",recipe.getRecipeImage());
-                        // Log other properties as needed...
-                    }
-                    */
 
                     if (callback != null) {
                         callback.onRecipeDetailsReceived(recipeDetails);

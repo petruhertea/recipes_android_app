@@ -15,11 +15,10 @@ public class AvailableIngredient {
     private String measureUnit;
 
 
-
-    public AvailableIngredient(String name, double quantity,String measureUnit) {
+    public AvailableIngredient(String name, double quantity, String measureUnit) {
         this.name = name;
         this.quantity = quantity;
-        this.measureUnit=measureUnit;
+        this.measureUnit = measureUnit;
     }
 
     public String getMeasureUnit() {

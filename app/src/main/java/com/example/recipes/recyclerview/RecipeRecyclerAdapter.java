@@ -27,6 +27,31 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         this.clickListener = listener;
     }
 
+    @NonNull
+    @Override
+    public RecipeRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecipeRecyclerAdapter.ViewHolder holder, int position) {
+        RecipeDetails recipeDetails = recipeDetailsList.get(position);
+
+        holder.getTvRecipeTitle().setText(recipeDetails.getRecipeTitle());
+        holder.getTvRecipeDescription().setText(recipeDetails.getRecipeDescription());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return recipeDetailsList.size();
+    }
+
+    public interface OnRecipeItemClickListener {
+        void onRecipeItemClick(int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView tvRecipeTitle;
         private final TextView tvRecipeDescription;
@@ -57,33 +82,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
                 }
             }
         }
-    }
-
-
-
-    @NonNull
-    @Override
-    public RecipeRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecipeRecyclerAdapter.ViewHolder holder, int position) {
-        RecipeDetails recipeDetails = recipeDetailsList.get(position);
-
-        holder.getTvRecipeTitle().setText(recipeDetails.getRecipeTitle());
-        holder.getTvRecipeDescription().setText(recipeDetails.getRecipeDescription());
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return recipeDetailsList.size();
-    }
-
-    public interface OnRecipeItemClickListener {
-        void onRecipeItemClick(int position);
     }
 
 }

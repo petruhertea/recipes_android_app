@@ -4,30 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AddIngredientFragment">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.02" />
+    tools:context=".fragment.AddIngredientFragment"
+    android:padding="10dp"
+    >
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:ems="16"
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="6sp"
         android:autoSizeMaxTextSize="180sp"
         android:background="@drawable/edit_text_style"
         android:hint="@string/nume"
+        android:padding="10dp"
         android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="@id/guideline6"
         app:layout_constraintStart_toStartOf="@id/guideline5"
-        app:layout_constraintTop_toBottomOf="@id/guideline8"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/etQuantity"
         />
 
@@ -69,7 +64,7 @@
             android:autoSizeMinTextSize="6sp"
             android:autoSizeMaxTextSize="60sp"
             android:textSize="20sp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:padding="10dp"
             />
 
@@ -116,6 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

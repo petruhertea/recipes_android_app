@@ -1,7 +1,6 @@
 package com.example.recipes.fragment;
 
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ public class RecipeDetailsFragment extends Fragment {
 
     NavController navController;
 
-    TextView title, instructions, description, servings, cookTime, prepTime, totalTime, ingredients;
+    TextView title, instructions, description, recipeTimers, ingredients;
     ImageView image;
 
     RecipeDetails recipe;
@@ -54,10 +53,7 @@ public class RecipeDetailsFragment extends Fragment {
         title = view.findViewById(R.id.tvRecipeTitle);
         instructions = view.findViewById(R.id.tvRecipeInstructions);
         description = view.findViewById(R.id.tvRecipeDescription);
-        servings = view.findViewById(R.id.tvNoOfServings);
-        cookTime = view.findViewById(R.id.tvCookTime);
-        prepTime = view.findViewById(R.id.tvPrepTime);
-        totalTime = view.findViewById(R.id.tvTotalTime);
+        recipeTimers = view.findViewById(R.id.tvRecipeTimers);
         ingredients = view.findViewById(R.id.tvRecipeIngredients);
         image = view.findViewById(R.id.imgRecipe);
 
@@ -127,23 +123,21 @@ public class RecipeDetailsFragment extends Fragment {
                     instructionsTextBuilder.append(" - ").append(instruction).append(".").append("\n");
                 }
 
-                String serv, prep, cook, total;
+                String serv, prep, cook, total, recipeTimersString;
                 String ingredientsText = getResources().getString(R.string.ingrediente) + ingredientTextBuilder;
 
                 serv = "Nr. de porții: " + bundleServings;
                 prep = "Timp pentru pregătire: " + bundlePrepTime + " min";
                 cook = "Timp de preparare: " + bundleCookTime + " min";
                 total = "Timp total: " + bundleTotalTime + " min";
+                recipeTimersString=serv + "\n" + prep + "\n" + cook + "\n" + total;
 
                 String cookDirections = "Mod de preparare:\n" + instructionsTextBuilder;
 
                 title.setText(bundleTitle);
                 instructions.setText(cookDirections);
                 description.setText(bundleDescription);
-                servings.setText(serv);
-                cookTime.setText(cook);
-                prepTime.setText(prep);
-                totalTime.setText(total);
+                recipeTimers.setText(recipeTimersString);
                 ingredients.setText(ingredientsText);
 
                 /*

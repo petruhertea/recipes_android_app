@@ -58,15 +58,12 @@ public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient,
     public static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, quantity, unit;
-        ImageView edit, delete;
 
         public IngredientViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.tvIngredientName);
             quantity = itemView.findViewById(R.id.tvQuantity);
-            edit = itemView.findViewById(R.id.edit);
-            delete = itemView.findViewById(R.id.delete);
             unit = itemView.findViewById(R.id.tvMeasureUnit);
         }
     }

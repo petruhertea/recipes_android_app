@@ -1,5 +1,6 @@
 package com.example.recipes.fragment;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +30,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class AvailableIngredientsFragment extends Fragment {
 
@@ -82,14 +86,14 @@ public class AvailableIngredientsFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT) {
-                    ingredientViewModel.delete(availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()));
+                    ingredientViewModel.delete(availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()));
                     Toast.makeText(getContext(), "Ingredient șters!", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    int ingredientID = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getIngredientID();
-                    String name = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getName();
-                    float quantity = (float) availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getQuantity();
-                    String measureUnit = availableIngredientAdapter.getIngredient(viewHolder.getAdapterPosition()).getMeasureUnit();
+                    int ingredientID = availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()).getIngredientID();
+                    String name = availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()).getName();
+                    float quantity = (float) availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()).getQuantity();
+                    String measureUnit = availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()).getMeasureUnit();
 
                     AvailableIngredientsFragmentDirections.ActionAvailableIngredientsFragmentToAddIngredientFragment action = AvailableIngredientsFragmentDirections.actionAvailableIngredientsFragmentToAddIngredientFragment();
                     action.setIngredientID(ingredientID);
@@ -98,6 +102,20 @@ public class AvailableIngredientsFragment extends Fragment {
                     action.setMeasureUnit(measureUnit);
                     navController.navigate(action);
                 }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+                        .addSwipeLeftActionIcon(R.drawable.ic_baseline_edit_note_24)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        .addSwipeRightActionIcon(R.drawable.ic_baseline_delete_sweep_24)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(ingredientRecyclerView);
 
@@ -116,7 +134,7 @@ public class AvailableIngredientsFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        MenuInflater menuInflater = Objects.requireNonNull(getActivity()).getMenuInflater();
+        MenuInflater menuInflater = requireActivity().getMenuInflater();
         menuInflater.inflate(R.menu.menu_delete_all, menu);
     }
 

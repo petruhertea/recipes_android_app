@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="vermilion_red">#E34234</color>
     <color name="salmon_red">#FA8072</color>
+    <color name="light_blue">#2196F3</color>
+    <color name="red">#FF0000</color>
+    <color name="rosewood_red">#65000B</color>
 </resources>

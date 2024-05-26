@@ -10,77 +10,51 @@
     android:minHeight="80dp"
     app:cardMaxElevation="8dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/edit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/ic_baseline_navigate_before_24" />
+        <TextView
+            android:id="@+id/tvIngredientName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:textSize="24sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="6sp"
+            android:autoSizeMaxTextSize="120sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvQuantity"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/delete"
-            android:layout_alignParentEnd="true"
-            android:text="@string/sterge" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/delete"
-            android:layout_toEndOf="@id/edit"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvIngredientName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvMeasureUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_baseline_navigate_next_24" />
+            android:text="@string/placeholder"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="4sp"
+            android:autoSizeMaxTextSize="80sp"
+            app:layout_constraintTop_toBottomOf="@id/tvIngredientName"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvMeasureUnit"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/delete"
-            android:layout_alignParentStart="true"
-            android:text="@string/modifica" />
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:autoSizeMinTextSize="4sp"
+            android:autoSizeMaxTextSize="60sp"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintStart_toEndOf="@id/tvQuantity"
+            app:layout_constraintTop_toBottomOf="@id/tvIngredientName"
+            />
 
-    </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

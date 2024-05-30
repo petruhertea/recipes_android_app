@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/availableIngredientsFragment"
-        android:name="com.example.recipes.fragment.AvailableIngredientsFragment"
+        android:name="com.recipes.fragment.AvailableIngredientsFragment"
         android:label="fragment_available_ingredients"
         tools:layout="@layout/fragment_available_ingredients">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.example.recipes.fragment.RecipesFragment"
+        android:name="com.recipes.fragment.RecipesFragment"
         android:label="fragment_recipes"
         tools:layout="@layout/fragment_recipes">
         <action
@@ -25,16 +25,19 @@
     </fragment>
     <fragment
         android:id="@+id/recipeDetailsFragment"
-        android:name="com.example.recipes.fragment.RecipeDetailsFragment"
+        android:name="com.recipes.fragment.RecipeDetailsFragment"
         android:label="fragment_recipe_details"
         tools:layout="@layout/fragment_recipe_details">
         <argument
             android:name="recipeID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_recipeDetailsFragment_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/addIngredientFragment"
-        android:name="com.example.recipes.fragment.AddIngredientFragment"
+        android:name="com.recipes.fragment.AddIngredientFragment"
         android:label="fragment_add_ingredient"
         tools:layout="@layout/fragment_add_ingredient">
         <argument

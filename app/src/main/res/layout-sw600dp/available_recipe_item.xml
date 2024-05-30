@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/placeholder"
-            android:textSize="24sp"
+            android:textSize="36sp"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="6sp"
             android:autoSizeMaxTextSize="120sp"
@@ -38,14 +38,14 @@
             android:autoSizeMaxTextSize="80sp"
             app:layout_constraintTop_toBottomOf="@id/tvIngredientName"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="16sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tvMeasureUnit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:autoSizeMinTextSize="4sp"
             android:autoSizeMaxTextSize="60sp"
             android:autoSizeTextType="uniform"

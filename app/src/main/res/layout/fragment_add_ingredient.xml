@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AddIngredientFragment">
+    tools:context="com.recipes.fragment.AddIngredientFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
@@ -28,8 +28,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline6"
         app:layout_constraintStart_toStartOf="@id/guideline5"
         app:layout_constraintTop_toBottomOf="@id/guideline8"
-        app:layout_constraintBottom_toTopOf="@id/etQuantity"
-        />
+        app:layout_constraintBottom_toTopOf="@id/etQuantity" />
 
     <EditText
         android:id="@+id/etQuantity"
@@ -46,8 +45,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline6"
         app:layout_constraintStart_toStartOf="@id/guideline5"
         app:layout_constraintTop_toBottomOf="@id/etName"
-        app:layout_constraintBottom_toTopOf="@id/measureUnitLayout"
-        />
+        app:layout_constraintBottom_toTopOf="@id/measureUnitLayout" />
 
 
     <LinearLayout
@@ -58,8 +56,8 @@
         app:layout_constraintStart_toStartOf="@id/guideline5"
         app:layout_constraintEnd_toEndOf="@id/guideline6"
         app:layout_constraintTop_toBottomOf="@id/etQuantity"
-        app:layout_constraintBottom_toTopOf="@id/btnSave"
-        >
+        app:layout_constraintBottom_toTopOf="@id/btnSave">
+
         <TextView
             android:id="@+id/txtMeasureUnit"
             android:layout_width="match_parent"
@@ -70,8 +68,7 @@
             android:autoSizeMaxTextSize="60sp"
             android:textSize="20sp"
             android:layout_weight="1"
-            android:padding="10dp"
-            />
+            android:padding="10dp" />
 
         <Spinner
             android:id="@+id/measureUnitSpinner"
@@ -79,8 +76,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:padding="10dp"
-            />
+            android:padding="10dp" />
     </LinearLayout>
 
 

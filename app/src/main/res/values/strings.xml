@@ -17,6 +17,8 @@
     <string name="modifica">Modifică</string>
     <string name="sterge_toate">Goliți lista</string>
     <string name="u_m">Unitate de măsură:</string>
+    <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
 
     <string-array name="unit_masura">
         <item>buc.</item>

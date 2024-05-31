@@ -25,6 +25,8 @@
     <string name="ingredient_deleted">Ingredient deleted!</string>
     <string name="ingrediente_disponiblie">Ingredients</string>
 
+    <string name="banner_ad_id">ca-app-pub-3940256099942544/9214589741</string>
+
     <string-array name="unit_masura">
         <item>pcs.</item>
         <item>g</item>

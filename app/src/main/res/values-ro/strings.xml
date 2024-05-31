@@ -18,12 +18,15 @@
     <string name="u_m">Unitate de măsură:</string>
     <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
+
     <string name="complete_fields">Toate câmpurile trebuie completate!</string>
     <string name="ingredient_added">Ingredient adăugat!</string>
     <string name="ingredient_updated">Ingredient modificat!</string>
     <string name="empty_list">Lista a fost golită</string>
     <string name="ingredient_deleted">Ingredient șters!</string>
     <string name="ingrediente_disponiblie">Ingrediente</string>
+
+    <string name="banner_ad_id">ca-app-pub-3940256099942544/9214589741</string>
 
     <string-array name="unit_masura">
         <item>buc.</item>

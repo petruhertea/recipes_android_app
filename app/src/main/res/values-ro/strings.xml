@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CookCraft</string>
+    <string name="recipe_title">Titlu rețetă</string>
+    <string name="recipe_description">Descriere rețetă</string>
+    <string name="placeholder">Înlocuitor</string>
+    <string name="ingrediente"><b>\nIngrediente:\n</b></string>
+    <string name="servings">Număr de porții: %d</string>
+    <string name="bauturi_recomandate">Băuturi recomandate:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ingrediente_disponibile">Ingrediente</string>
+    <string name="retete">Rețete</string>
+    <string name="nume">Nume</string>
+    <string name="cantitate">Cantitate</string>
+    <string name="adaug">Adaugă</string>
+    <string name="sterge">Șterge</string>
+    <string name="modifica">Modifică</string>
+    <string name="u_m">Unitate de măsură:</string>
+    <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="complete_fields">Toate câmpurile trebuie completate!</string>
+    <string name="ingredient_added">Ingredient adăugat!</string>
+    <string name="ingredient_updated">Ingredient modificat!</string>
+    <string name="empty_list">Lista a fost golită</string>
+    <string name="ingredient_deleted">Ingredient șters!</string>
+    <string name="ingrediente_disponiblie">Ingrediente</string>
+
+    <string-array name="unit_masura">
+        <item>buc.</item>
+        <item>g</item>
+        <item>kg</item>
+        <item>ml</item>
+        <item>l</item>
+    </string-array>
+
+</resources>

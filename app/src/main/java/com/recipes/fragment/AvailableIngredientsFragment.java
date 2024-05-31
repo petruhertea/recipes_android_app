@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,8 +45,15 @@ public class AvailableIngredientsFragment extends Fragment {
     private FragmentAvailableIngredientsBinding binding;
 
     @Override
+    public void onPause() {
+        super.onPause();
+        binding.adView.pause();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.adView.destroy();
         binding=null;
     }
 
@@ -57,7 +65,9 @@ public class AvailableIngredientsFragment extends Fragment {
 
         View view = binding.getRoot();
 
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
+        loadBannerAd();
+
+        navController = NavHostFragment.findNavController(AvailableIngredientsFragment.this);
 
         setupViews(view);
 
@@ -86,7 +96,7 @@ public class AvailableIngredientsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ingredientViewModel.deleteAll();
-                Toast.makeText(getContext(), "Lista a fost golită", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.empty_list, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -100,7 +110,7 @@ public class AvailableIngredientsFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT) {
                     ingredientViewModel.delete(availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()));
-                    Toast.makeText(getContext(), "Ingredient șters!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.ingredient_deleted, Toast.LENGTH_SHORT).show();
                 } else {
 
                     int ingredientID = availableIngredientAdapter.getIngredient(viewHolder.getAbsoluteAdapterPosition()).getIngredientID();
@@ -164,13 +174,7 @@ public class AvailableIngredientsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadBannerAd();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        binding.adView.destroy();
+        binding.adView.resume();
     }
 
 }

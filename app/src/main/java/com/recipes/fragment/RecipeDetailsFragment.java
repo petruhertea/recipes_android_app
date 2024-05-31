@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +54,12 @@ public class RecipeDetailsFragment extends Fragment {
     private List<BeverageDetails> beverageDetailsList = new ArrayList<>();
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -60,7 +67,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         View view= binding.getRoot();
 
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
+        navController = NavHostFragment.findNavController(RecipeDetailsFragment.this);
 
         getRecipeDetails();
 

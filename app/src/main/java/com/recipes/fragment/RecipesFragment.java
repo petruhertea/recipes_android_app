@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,9 +55,9 @@ public class RecipesFragment extends Fragment {
     private List<AvailableIngredient> availableIngredientList = new ArrayList<>();
 
     @Override
-    public void onResume() {
-        super.onResume();
-        loadBannerAd();
+    public void onPause() {
+        super.onPause();
+        binding.adView.pause();
     }
 
     @Override
@@ -68,14 +69,16 @@ public class RecipesFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding=FragmentRecipesBinding.inflate(inflater,container,false);
 
         View view = binding.getRoot();
 
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
+        loadBannerAd();
+
+        navController = NavHostFragment.findNavController(RecipesFragment.this);
 
 
         setupViewModelAndRecyclerView(view);
@@ -112,6 +115,7 @@ public class RecipesFragment extends Fragment {
             @Override
             public void onChanged(List<AvailableIngredient> availableIngredients) {
                 availableIngredientList = availableIngredients;
+                ingredientsList.clear();
 
                 for (AvailableIngredient ingredient : availableIngredientList) {
                     String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity() + " " + ingredient.getMeasureUnit();
@@ -239,4 +243,9 @@ public class RecipesFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.adView.resume();
+    }
 }

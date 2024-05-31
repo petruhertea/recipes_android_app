@@ -15,27 +15,6 @@
             app:destination="@id/addIngredientFragment" />
     </fragment>
     <fragment
-        android:id="@+id/recipesFragment"
-        android:name="com.recipes.fragment.RecipesFragment"
-        android:label="fragment_recipes"
-        tools:layout="@layout/fragment_recipes">
-        <action
-            android:id="@+id/action_recipesFragment_to_recipeDetailsFragment"
-            app:destination="@id/recipeDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/recipeDetailsFragment"
-        android:name="com.recipes.fragment.RecipeDetailsFragment"
-        android:label="fragment_recipe_details"
-        tools:layout="@layout/fragment_recipe_details">
-        <argument
-            android:name="recipeID"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_recipeDetailsFragment_to_recipesFragment"
-            app:destination="@id/recipesFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/addIngredientFragment"
         android:name="com.recipes.fragment.AddIngredientFragment"
         android:label="fragment_add_ingredient"

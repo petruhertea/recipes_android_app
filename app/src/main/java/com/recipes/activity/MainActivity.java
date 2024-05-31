@@ -19,12 +19,12 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.recipes.R;
+import com.recipes.adapter.ViewPagerAdapter;
 import com.recipes.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
-    NavController navController;
 
     InterstitialAd mInterstitialAd;
 
@@ -44,11 +44,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_main);
-        assert navHostFragment != null;
-        navController = navHostFragment.getNavController();
+        ViewPagerAdapter adapter= new ViewPagerAdapter(this);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setUserInputEnabled(false);
+
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText(R.string.ingrediente_disponiblie);
+                    break;
+                case 1:
+                    tab.setText(R.string.retete);
+                    break;
+            }
+        }).attach();
 
         initAdMob();
 
@@ -68,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         countDownTimer.start();
-
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
     private void initAdMob() {

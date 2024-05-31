@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.recipes.R;
 import com.recipes.databinding.FragmentAddIngredientBinding;
@@ -60,7 +61,7 @@ public class AddIngredientFragment extends Fragment {
 
         View view = binding.getRoot();
 
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_main);
+        navController = NavHostFragment.findNavController(AddIngredientFragment.this);
 
         ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(IngredientViewModel.class);
 
@@ -118,7 +119,7 @@ public class AddIngredientFragment extends Fragment {
                 quantityText = binding.etQuantity.getText().toString();
 
                 if (name.trim().isEmpty() || quantityText.trim().isEmpty()) {
-                    Toast.makeText(getContext(), "Toate câmpurile trebuie completate!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.complete_fields, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -128,13 +129,13 @@ public class AddIngredientFragment extends Fragment {
                     AvailableIngredient availableIngredient = new AvailableIngredient(name, quantity, measureUnit);
                     ingredientViewModel.insert(availableIngredient);
                     navController.popBackStack();
-                    Toast.makeText(getContext(), "Ingredient adăugat!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.ingredient_added, Toast.LENGTH_SHORT).show();
                 } else {
                     AvailableIngredient availableIngredient = new AvailableIngredient(name, quantity, measureUnit);
                     availableIngredient.setIngredientID(id);
                     ingredientViewModel.update(availableIngredient);
                     navController.popBackStack();
-                    Toast.makeText(getContext(), "Ingredient modificat!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.ingredient_updated, Toast.LENGTH_SHORT).show();
                 }
 
             }

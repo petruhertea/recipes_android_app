@@ -4,66 +4,49 @@
     android:layout_width="140dp"
     android:layout_height="165dp"
     android:layout_margin="5dp"
+    android:maxWidth="280dp"
+    android:maxHeight="330dp"
+    android:minWidth="140dp"
+    android:minHeight="165dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="5dp">
+    app:cardElevation="5dp"
+
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="6dp">
 
         <ImageView
             android:id="@+id/imgBeverage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="5dp"
+            android:background="@drawable/recipe_image_style"
+            android:padding="4dp"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toTopOf="@id/guideline3"
-            android:background="@drawable/recipe_image_style" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvBeverageName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="6sp"
             android:autoSizeMaxTextSize="120sp"
+            android:autoSizeMinTextSize="6sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxHeight="64dp"
+            android:minHeight="16dp"
             android:text="@string/placeholder"
-            app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/imgBeverage"
-            app:layout_constraintBottom_toBottomOf="@id/guideline4"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgBeverage" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="133dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.95" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.recipes.fragment.RecipeDetailsFragment"
+    android:padding="10dp"
     android:theme="@style/NoActionBarTheme"
-    android:padding="10dp">
+    tools:context="com.cookcraft.fragment.RecipeDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,60 +21,64 @@
             android:gravity="center"
             android:textSize="40sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:background="@drawable/recipe_image_style"
             android:id="@+id/imgRecipe"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:layout_constraintTop_toBottomOf="@id/tvRecipeTitle"
+            android:background="@drawable/recipe_image_style"
+            android:padding="5dp"
             app:layout_constraintStart_toStartOf="@id/tvRecipeTitle"
-            android:padding="5dp" />
+            app:layout_constraintTop_toBottomOf="@id/tvRecipeTitle" />
 
         <TextView
             android:id="@+id/tvRecipeTimers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="36sp"
             android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:padding="5dp"
             android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imgRecipe"
-            app:layout_constraintTop_toTopOf="@id/imgRecipe"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/imgRecipe" />
 
 
         <TextView
             android:id="@+id/tvRecipeDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="26sp"
-            app:layout_constraintTop_toBottomOf="@id/imgRecipe"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/imgRecipe" />
 
 
         <TextView
             android:id="@+id/tvRecipeIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="48sp"
+            android:autoSizeMinTextSize="20sp"
             android:text="@string/ingrediente"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRecipeDescription" />
 
         <TextView
             android:id="@+id/tvRecipeInstructions"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:autoSizeMaxTextSize="64sp"
+            android:autoSizeMinTextSize="16sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRecipeIngredients" />
 
         <TextView
@@ -83,8 +87,8 @@
             android:layout_height="wrap_content"
             android:text="@string/bauturi_recomandate"
             android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRecipeInstructions" />
 
         <androidx.recyclerview.widget.RecyclerView

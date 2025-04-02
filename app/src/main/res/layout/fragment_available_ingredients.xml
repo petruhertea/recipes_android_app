@@ -2,25 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/available_ingredients"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/available_ingredients"
-    tools:context="com.recipes.fragment.AvailableIngredientsFragment">
+    tools:context="com.cookcraft.fragment.AvailableIngredientsFragment">
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/available_ingredients"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/adView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAvailableIngredients"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:contentDescription="@string/ingredient_list"
         app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,6 +45,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/salmon_red"
         android:clickable="true"
+        android:contentDescription="@string/add_ingredient"
         app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24" />
@@ -56,6 +58,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/salmon_red"
         android:clickable="true"
+        android:contentDescription="@string/delete_all"
         app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_forever_24" />

@@ -16,8 +16,8 @@
     <string name="sterge">Șterge</string>
     <string name="modifica">Modifică</string>
     <string name="u_m">Unitate de măsură:</string>
-    <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_id">ca-app-pub-8319917367585912~4547353042</string>
+    <string name="interstitial_ad_id">ca-app-pub-8319917367585912/4814946357</string>
 
     <string name="complete_fields">Toate câmpurile trebuie completate!</string>
     <string name="ingredient_added">Ingredient adăugat!</string>
@@ -26,7 +26,14 @@
     <string name="ingredient_deleted">Ingredient șters!</string>
     <string name="ingrediente_disponiblie">Ingrediente</string>
 
-    <string name="banner_ad_id">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="banner_ad_id">ca-app-pub-8319917367585912/3602136727</string>
+    <string name="delete_all">Golește lista</string>
+    <string name="add_ingredient">Adaugă Ingredient</string>
+    <string name="ingredient_list">Listă de ingrediente</string>
+    <string name="confirm_delete">Sunteți sigur că doriți să stergeți ingredientele?</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="quantity_error">Formatul cantității este invalid!</string>
 
     <string-array name="unit_masura">
         <item>buc.</item>

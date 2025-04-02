@@ -19,36 +19,36 @@
             android:id="@+id/tvIngredientName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="120sp"
+            android:autoSizeMinTextSize="6sp"
+            android:autoSizeTextType="uniform"
             android:text="@string/placeholder"
             android:textSize="24sp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="6sp"
-            android:autoSizeMaxTextSize="120sp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/placeholder"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="4sp"
             android:autoSizeMaxTextSize="80sp"
-            app:layout_constraintTop_toBottomOf="@id/tvIngredientName"
+            android:autoSizeMinTextSize="4sp"
+            android:autoSizeTextType="uniform"
+            android:text="@string/placeholder"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="16sp" />
+            app:layout_constraintTop_toBottomOf="@id/tvIngredientName" />
 
         <TextView
             android:id="@+id/tvMeasureUnit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
-            android:autoSizeMinTextSize="4sp"
             android:autoSizeMaxTextSize="60sp"
+            android:autoSizeMinTextSize="4sp"
             android:autoSizeTextType="uniform"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/tvQuantity"
             app:layout_constraintTop_toBottomOf="@id/tvIngredientName" />
 

@@ -4,16 +4,16 @@ plugins {
 }
 
 android {
-    namespace 'com.recipes'
+    namespace 'com.cookcraft'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.recipes"
+        applicationId "com.cookcraft"
         minSdk 26
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
-        buildConfigField "String", "BASE_URL", '"' + System.getenv("BASE_URL") + '"'
+        versionCode 10004
+        versionName "1.0.4"
+        // buildConfigField "String", "BASE_URL", '"' + System.getenv("BASE_URL") + '"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,9 +23,6 @@ android {
     }
 
     buildTypes {
-        debug {
-
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

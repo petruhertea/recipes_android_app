@@ -15,17 +15,24 @@
     <string name="sterge">Delete</string>
     <string name="modifica">Update</string>
     <string name="u_m">Measure unit:</string>
-    <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_id">ca-app-pub-8319917367585912~4547353042</string>
+    <string name="interstitial_ad_id">ca-app-pub-8319917367585912/4814946357</string>
 
     <string name="complete_fields">Complete all fields!</string>
-    <string name="ingredient_added">Ingredient aded!</string>
+    <string name="ingredient_added">Ingredient added!</string>
     <string name="ingredient_updated">Ingredient updated!</string>
     <string name="empty_list">List emptied.</string>
     <string name="ingredient_deleted">Ingredient deleted!</string>
     <string name="ingrediente_disponiblie">Ingredients</string>
 
-    <string name="banner_ad_id">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="banner_ad_id">ca-app-pub-8319917367585912/3602136727</string>
+    <string name="delete_all">Empty list</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="ingredient_list">List of ingredients</string>
+    <string name="confirm_delete">Are you sure you want to delete all the ingredients?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="quantity_error">Quantity format is invalid!</string>
 
     <string-array name="unit_masura">
         <item>pcs.</item>

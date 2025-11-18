@@ -1,4 +1,4 @@
-package com.cookcraft.models;
+package com.cookcraft.model;
 
 public class IngredientDetails {
     private double weight;

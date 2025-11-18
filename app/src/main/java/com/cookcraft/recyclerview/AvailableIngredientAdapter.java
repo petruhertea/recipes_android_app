@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookcraft.R;
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
 
 public class AvailableIngredientAdapter extends ListAdapter<AvailableIngredient, AvailableIngredientAdapter.IngredientViewHolder> {
 

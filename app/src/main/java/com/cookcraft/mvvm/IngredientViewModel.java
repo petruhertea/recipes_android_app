@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
 
 import java.util.List;
 

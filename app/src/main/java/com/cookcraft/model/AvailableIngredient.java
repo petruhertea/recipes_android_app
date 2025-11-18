@@ -1,4 +1,4 @@
-package com.cookcraft.models;
+package com.cookcraft.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

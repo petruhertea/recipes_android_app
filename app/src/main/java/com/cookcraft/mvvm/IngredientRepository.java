@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
+import com.cookcraft.room.CookCraftDatabase;
 import com.cookcraft.room.IngredientDAO;
-import com.cookcraft.room.IngredientDatabase;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ public class IngredientRepository {
     private LiveData<List<AvailableIngredient>> availableIngredientList;
 
     public IngredientRepository(Application application) {
-        IngredientDatabase ingredientDatabase = IngredientDatabase.getInstance(application);
-        ingredientDAO = ingredientDatabase.ingredientDAO();
+        CookCraftDatabase cookCraftDatabase = CookCraftDatabase.getInstance(application);
+        ingredientDAO = cookCraftDatabase.ingredientDAO();
         availableIngredientList = ingredientDAO.getAllIngredients();
     }
 

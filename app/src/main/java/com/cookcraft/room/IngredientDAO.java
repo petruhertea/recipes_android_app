@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
 
 import java.util.List;
 

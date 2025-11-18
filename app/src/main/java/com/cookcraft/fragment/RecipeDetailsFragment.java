@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,8 +20,9 @@ import com.bumptech.glide.Glide;
 import com.cookcraft.R;
 import com.cookcraft.activity.MainActivity;
 import com.cookcraft.databinding.FragmentRecipeDetailsBinding;
-import com.cookcraft.models.BeverageDetails;
-import com.cookcraft.models.RecipeDetails;
+import com.cookcraft.model.BeverageDetails;
+import com.cookcraft.model.RecipeDetails;
+import com.cookcraft.mvvm.RecipeViewModel;
 import com.cookcraft.recyclerview.BeverageRecyclerAdapter;
 import com.cookcraft.retrofit.BeverageDetailsCallback;
 import com.cookcraft.retrofit.RecipesApi;
@@ -46,12 +50,13 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentRecipeDetailsBinding.inflate(inflater, container, false);
-
         View view = binding.getRoot();
+
+        long startTime = System.currentTimeMillis();
+        Log.d("RecipeDetails", "Starting to load recipe...");
 
         navController = NavHostFragment.findNavController(RecipeDetailsFragment.this);
 
@@ -62,185 +67,113 @@ public class RecipeDetailsFragment extends Fragment {
         BeverageRecyclerAdapter adapter = new BeverageRecyclerAdapter();
 
         getBeverageDetails(adapter, recyclerView);
+
+        Log.d("RecipeDetails", "Recipe load initiated in " + (System.currentTimeMillis() - startTime) + "ms");
+
         return view;
     }
 
-    private void getBeverageDetails(BeverageRecyclerAdapter adapter, RecyclerView recyclerView) {
-        getBeverageDetails(new BeverageDetailsCallback() {
-
-            @Override
-            public void onBeverageDetailsReceived(List<BeverageDetails> beverageDetails) {
-                beverageDetailsList = beverageDetails;
-                adapter.setBeverageDetailsList(beverageDetails);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-
-            }
-        });
-    }
-
     private void getRecipeDetails() {
-        getRecipeDetails(new SingleRecipeCallback() {
-            @Override
-            public void onRecipeDetailsReceived(RecipeDetails recipeDetails) {
-                recipe = recipeDetails;
-
-                String bundleTitle, bundleDescription, bundleInstructions, bundleImage, bundleIngredients;
-                int bundleServings, bundleCookTime, bundlePrepTime, bundleTotalTime, bundleID;
-
-                bundleTitle = recipe.getRecipeTitle();
-                bundleDescription = recipe.getRecipeDescription();
-                bundleInstructions = recipe.getRecipeInstructions();
-                bundleImage = recipe.getRecipeImage();
-                bundlePrepTime = recipe.getPrepTimeMinutes();
-                bundleCookTime = recipe.getCookTimeMinutes();
-                bundleTotalTime = recipe.getTotalTimeMinutes();
-                bundleServings = recipe.getServings();
-                bundleIngredients = recipe.getIngredients();
-
-                bundleImage = bundleImage.replace("localhost", "10.0.2.2");
-
-                String[] ingredientsArray = bundleIngredients.split(", ");
-
-                // Create a map to store ingredients and their quantities
-                // Split the ingredient string based on comma delimiter
-
-                // Create a StringBuilder to build the ingredient text
-                StringBuilder ingredientTextBuilder = new StringBuilder();
-
-                // Iterate through the ingredients array
-                for (String ingredient : ingredientsArray) {
-                    // Split each ingredient into name and quantity parts based on colon delimiter
-                    String[] parts = ingredient.split(": ");
-
-                    // Append the ingredient name and quantity to the StringBuilder
-                    if (parts.length == 2) {
-                        ingredientTextBuilder.append(" - ").append(parts[0]).append(": ").append(parts[1]).append("\n");
-                    } else {
-                        ingredientTextBuilder.append(parts[0]).append(": N/A\n");
-                    }
-                }
-
-                String[] cookingInstructionsArray = bundleInstructions.split("[.] ");
-
-                StringBuilder instructionsTextBuilder = new StringBuilder();
-
-                for (String instruction : cookingInstructionsArray) {
-                    instructionsTextBuilder.append(" - ").append(instruction).append(".").append("\n");
-                }
-
-                String serv, prep, cook, total, recipeTimersString;
-                String ingredientsText = getResources().getString(R.string.ingrediente) + ingredientTextBuilder;
-
-                serv = "Nr. de porții: " + bundleServings;
-                prep = "Timp pentru pregătire: " + bundlePrepTime + " min";
-                cook = "Timp de preparare: " + bundleCookTime + " min";
-                total = "Timp total: " + bundleTotalTime + " min";
-                recipeTimersString = serv + "\n" + prep + "\n" + cook + "\n" + total;
-
-                String cookDirections = "Mod de preparare:\n" + instructionsTextBuilder;
-
-                binding.tvRecipeTitle.setText(bundleTitle);
-                binding.tvRecipeInstructions.setText(cookDirections);
-                binding.tvRecipeDescription.setText(bundleDescription);
-                binding.tvRecipeTimers.setText(recipeTimersString);
-                binding.tvRecipeIngredients.setText(ingredientsText);
-
-                Glide.with(requireContext())
-                        .load(bundleImage)
-                        .override(150, 150) // Resize the image to 150x150 pixels
-                        .centerCrop() // Crop the image if necessary
-                        .placeholder(R.drawable.ic_baseline_question_mark_24)
-                        .into(binding.imgRecipe);
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-
-            }
-        });
-    }
-
-    public void getRecipeDetails(SingleRecipeCallback callback) {
-        RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
+        RecipeViewModel recipeViewModel = new ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(RecipeViewModel.class);
 
         Bundle args = getArguments();
-
         assert args != null;
         Integer recipeID = args.getInt("recipeID");
 
-        Call<RecipeDetails> call = apiService.getRecipeByID(recipeID);
-        call.enqueue(new Callback<RecipeDetails>() {
+        recipeViewModel.getRecipeById(recipeID).observe(getViewLifecycleOwner(), new Observer<RecipeDetails>() {
             @Override
-            public void onResponse(Call<RecipeDetails> call, Response<RecipeDetails> response) {
-                if (response.isSuccessful()) {
-                    RecipeDetails recipeDetails = response.body();
-                    /*
-                    for (RecipeDetails recipe : recipeDetails) {
-                        Log.d("RecipeTitle", recipe.getRecipeTitle());
-                        Log.d("RecipeImage",recipe.getRecipeImage());
-                        // Log other properties as needed...
-                    }
-                    */
-
-                    if (callback != null) {
-                        callback.onRecipeDetailsReceived(recipeDetails);
-                    }
-                } else {
-                    if (callback != null) {
-                        callback.onFailure("Response unsuccessful");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RecipeDetails> call, Throwable t) {
-                if (callback != null) {
-                    callback.onFailure(t.getMessage());
+            public void onChanged(RecipeDetails recipeDetails) {
+                if (recipeDetails != null) {
+                    recipe = recipeDetails;
+                    displayRecipeDetails(recipeDetails);
                 }
             }
         });
     }
 
-    public void getBeverageDetails(BeverageDetailsCallback callback) {
-        RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
+    private void getBeverageDetails(BeverageRecyclerAdapter adapter, RecyclerView recyclerView) {
+        RecipeViewModel recipeViewModel = new ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(RecipeViewModel.class);
 
         Bundle args = getArguments();
-
         assert args != null;
         Integer recipeID = args.getInt("recipeID");
-        Call<List<BeverageDetails>> call = apiService.getAllSuggestions(recipeID);
-        call.enqueue(new Callback<List<BeverageDetails>>() {
+
+        recipeViewModel.getBeveragesByRecipeId(recipeID).observe(getViewLifecycleOwner(), new Observer<List<BeverageDetails>>() {
             @Override
-            public void onResponse(Call<List<BeverageDetails>> call, Response<List<BeverageDetails>> response) {
-                if (response.isSuccessful()) {
-                    List<BeverageDetails> beverageDetails = response.body();
-
-                    for (BeverageDetails beverage : beverageDetails) {
-                        Log.d("BeverageName", beverage.getBeverageSuggestions());
-                        // Log other properties as needed...
-                    }
-
-                    if (callback != null) {
-                        callback.onBeverageDetailsReceived(beverageDetails);
-                    }
-                } else {
-                    if (callback != null) {
-                        callback.onFailure("Response unsuccessful");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BeverageDetails>> call, Throwable t) {
-                if (callback != null) {
-                    callback.onFailure(t.getMessage());
+            public void onChanged(List<BeverageDetails> beverageDetails) {
+                if (beverageDetails != null && !beverageDetails.isEmpty()) {
+                    beverageDetailsList = beverageDetails;
+                    adapter.setBeverageDetailsList(beverageDetails);
+                    recyclerView.setAdapter(adapter);
                 }
             }
         });
+    }
+
+    // Helper method to display recipe details
+    private void displayRecipeDetails(RecipeDetails recipeDetails) {
+        String bundleTitle, bundleDescription, bundleInstructions, bundleImage, bundleIngredients;
+        int bundleServings, bundleCookTime, bundlePrepTime, bundleTotalTime;
+
+        bundleTitle = recipeDetails.getRecipeTitle();
+        bundleDescription = recipeDetails.getRecipeDescription();
+        bundleInstructions = recipeDetails.getRecipeInstructions();
+        bundleImage = recipeDetails.getRecipeImage();
+        bundlePrepTime = recipeDetails.getPrepTimeMinutes();
+        bundleCookTime = recipeDetails.getCookTimeMinutes();
+        bundleTotalTime = recipeDetails.getTotalTimeMinutes();
+        bundleServings = recipeDetails.getServings();
+        bundleIngredients = recipeDetails.getIngredients();
+
+        bundleImage = bundleImage.replace("localhost", "10.0.2.2");
+
+        String[] ingredientsArray = bundleIngredients.split(", ");
+        StringBuilder ingredientTextBuilder = new StringBuilder();
+
+        for (String ingredient : ingredientsArray) {
+            String[] parts = ingredient.split(": ");
+            if (parts.length == 2) {
+                ingredientTextBuilder.append(" - ").append(parts[0]).append(": ").append(parts[1]).append("\n");
+            } else {
+                ingredientTextBuilder.append(parts[0]).append(": N/A\n");
+            }
+
+        }
+
+        String[] cookingInstructionsArray = bundleInstructions.split("[.] ");
+        StringBuilder instructionsTextBuilder = new StringBuilder();
+
+        for (String instruction : cookingInstructionsArray) {
+            instructionsTextBuilder.append(" - ").append(instruction).append(".").append("\n");
+        }
+
+        String serv, prep, cook, total, recipeTimersString;
+        String ingredientsText = getResources().getString(R.string.ingrediente) + ingredientTextBuilder;
+
+        serv = "Nr. de porții: " + bundleServings;
+        prep = "Timp pentru pregătire: " + bundlePrepTime + " min";
+        cook = "Timp de preparare: " + bundleCookTime + " min";
+        total = "Timp total: " + bundleTotalTime + " min";
+        recipeTimersString = serv + "\n" + prep + "\n" + cook + "\n" + total;
+
+        String cookDirections = "Mod de preparare:\n" + instructionsTextBuilder;
+
+        binding.tvRecipeTitle.setText(bundleTitle);
+        binding.tvRecipeInstructions.setText(cookDirections);
+        binding.tvRecipeDescription.setText(bundleDescription);
+        binding.tvRecipeTimers.setText(recipeTimersString);
+        binding.tvRecipeIngredients.setText(ingredientsText);
+
+        Glide.with(requireContext())
+                .load(bundleImage)
+                .override(150, 150)
+                .centerCrop()
+                .placeholder(R.drawable.ic_baseline_question_mark_24)
+                .into(binding.imgRecipe);
     }
 
     @Override

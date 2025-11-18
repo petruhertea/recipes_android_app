@@ -8,34 +8,29 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cookcraft.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.cookcraft.databinding.FragmentRecipesBinding;
-import com.cookcraft.models.AvailableIngredient;
-import com.cookcraft.models.IngredientDetails;
-import com.cookcraft.models.RecipeDetails;
+import com.cookcraft.model.AvailableIngredient;
+import com.cookcraft.model.RecipeDetails;
 import com.cookcraft.mvvm.IngredientViewModel;
+import com.cookcraft.mvvm.RecipeViewModel;
 import com.cookcraft.recyclerview.RecipeRecyclerAdapter;
-import com.cookcraft.retrofit.RecipeDetailsCallback;
-import com.cookcraft.retrofit.RecipesApi;
-import com.cookcraft.retrofit.RetrofitClient;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecipesFragment extends Fragment {
 
@@ -79,21 +74,15 @@ public class RecipesFragment extends Fragment {
 
 
     }
-
-
     public void setupViewModelAndRecyclerView(View view) {
-
-
         binding.recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter();
-
 
         adapter.setOnRecipeItemClickListener(new RecipeRecyclerAdapter.OnRecipeItemClickListener() {
             @Override
             public void onRecipeItemClick(int position) {
                 RecipeDetails clickedRecipe = recipeDetailsList.get(position);
-
                 int recipeID = clickedRecipe.getRecipeID();
 
                 NavDirections action = RecipesFragmentDirections.actionRecipesFragmentToRecipeDetailsFragment(recipeID);
@@ -101,53 +90,102 @@ public class RecipesFragment extends Fragment {
             }
         });
 
-        ingredientViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().getApplication())).get(IngredientViewModel.class);
+        // Create ViewModels
+        ingredientViewModel = new ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(IngredientViewModel.class);
 
-        ingredientViewModel.getAllIngredients().observe(getViewLifecycleOwner(), new Observer<List<AvailableIngredient>>() {
+        RecipeViewModel recipeViewModel = new ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(RecipeViewModel.class);
+
+        // Clean expired cache on start
+        recipeViewModel.cleanExpiredCache();
+
+        // Use switchMap to automatically switch between recipe sources based on ingredients
+        LiveData<List<AvailableIngredient>> ingredientsLiveData = ingredientViewModel.getAllIngredients();
+
+        LiveData<List<RecipeDetails>> recipesLiveData = Transformations.switchMap(ingredientsLiveData,
+                ingredients -> {
+                    if (ingredients != null && !ingredients.isEmpty()) {
+                        // Has ingredients: fetch filtered recipes
+                        return recipeViewModel.getRecipesByIngredients(ingredients);
+                    } else {
+                        // No ingredients: fetch all recipes
+                        return recipeViewModel.getAllRecipes();
+                    }
+                });
+
+        // Observe the recipes LiveData (automatically updates when ingredients change)
+        recipesLiveData.observe(getViewLifecycleOwner(), new Observer<List<RecipeDetails>>() {
             @Override
-            public void onChanged(List<AvailableIngredient> availableIngredients) {
-                availableIngredientList = availableIngredients;
-                ingredientsList.clear();
+            public void onChanged(List<RecipeDetails> recipes) {
+                if (recipes != null) {
+                    recipeDetailsList = recipes;
+                    adapter.setRecipeList(recipeDetailsList);
 
-                for (AvailableIngredient ingredient : availableIngredientList) {
-                    String formattedIngredient = ingredient.getName() + "=" + ingredient.getQuantity() + " " + ingredient.getMeasureUnit();
-                    ingredientsList.add(formattedIngredient);
+                    if (binding.recyclerViewRecipes.getAdapter() == null) {
+                        binding.recyclerViewRecipes.setAdapter(adapter);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
                 }
+            }
+        });
 
-
-                if (!ingredientsList.isEmpty()) {
-                    getRecipeDetailsByIngredients(new RecipeDetailsCallback() {
-                        @Override
-                        public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {
-                            recipeDetailsList = recipeDetails;
-                            adapter.setRecipeList(recipeDetailsList);
-                            binding.recyclerViewRecipes.setAdapter(adapter);
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            Log.d("Response", errorMessage);
-                        }
-                    });
-
-
-                } else {
-                    getRecipeDetails(new RecipeDetailsCallback() {
-                        @Override
-                        public void onRecipeDetailsReceived(List<RecipeDetails> recipeDetails) {
-                            recipeDetailsList = recipeDetails;
-                            adapter.setRecipeList(recipeDetailsList);
-                            binding.recyclerViewRecipes.setAdapter(adapter);
-                        }
-
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            Log.d("Response", errorMessage);
-                        }
-                    });
+        // Observe network status
+        recipeViewModel.getNetworkStatus().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isConnected) {
+                if (!isConnected) {
+                    // Show offline indicator
+                    Snackbar.make(
+                            binding.getRoot(),
+                            "📡 Offline mode - showing cached recipes",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
                 }
+            }
+        });
 
+        // Setup pull-to-refresh
+        binding.swipeRefresh.setColorSchemeResources(
+                R.color.salmon_red,
+                R.color.vermilion_red
+        );
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            // Check if we have ingredients or not
+            if (availableIngredientList != null && !availableIngredientList.isEmpty()) {
+                // Refresh with ingredients
+                recipeViewModel.forceRefreshRecipesByIngredients(availableIngredientList)
+                        .observe(getViewLifecycleOwner(), recipes -> {
+                            binding.swipeRefresh.setRefreshing(false);
+                            if (recipes != null) {
+                                recipeDetailsList = recipes;
+                                adapter.setRecipeList(recipeDetailsList);
+                                adapter.notifyDataSetChanged();
+
+                                Snackbar.make(binding.getRoot(),
+                                        "✓ Recipes refreshed",
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                // Refresh all recipes
+                recipeViewModel.forceRefreshAllRecipes()
+                        .observe(getViewLifecycleOwner(), recipes -> {
+                            binding.swipeRefresh.setRefreshing(false);
+                            if (recipes != null) {
+                                recipeDetailsList = recipes;
+                                adapter.setRecipeList(recipeDetailsList);
+                                adapter.notifyDataSetChanged();
+
+                                Snackbar.make(binding.getRoot(),
+                                        "✓ Recipes refreshed",
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -168,69 +206,6 @@ public class RecipesFragment extends Fragment {
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 super.onAdFailedToLoad(loadAdError);
                 Log.d("AdMob", loadAdError.getMessage());
-            }
-        });
-    }
-
-    public void getRecipeDetailsByIngredients(RecipeDetailsCallback callback) {
-        RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
-
-        // Construct a map from the availableIngredientList
-        Map<String, IngredientDetails> ingredientMap = new HashMap<>();
-        for (AvailableIngredient ingredient : availableIngredientList) {
-            ingredientMap.put(ingredient.getName(), new IngredientDetails(ingredient.getQuantity(), ingredient.getMeasureUnit()));
-        }
-
-        Call<List<RecipeDetails>> call = apiService.postRecipesByIngredients(ingredientMap);
-        call.enqueue(new Callback<List<RecipeDetails>>() {
-            @Override
-            public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {
-                if (response.isSuccessful()) {
-                    List<RecipeDetails> recipeDetails = response.body();
-                    if (callback != null) {
-                        callback.onRecipeDetailsReceived(recipeDetails);
-                    }
-                } else {
-                    if (callback != null) {
-                        callback.onFailure("Response unsuccessful");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<RecipeDetails>> call, Throwable t) {
-                if (callback != null) {
-                    callback.onFailure(t.getMessage());
-                }
-            }
-        });
-    }
-
-    public void getRecipeDetails(RecipeDetailsCallback callback) {
-        RecipesApi apiService = RetrofitClient.getClient(getContext()).create(RecipesApi.class);
-
-        Call<List<RecipeDetails>> call = apiService.getAllRecipes();
-        call.enqueue(new Callback<List<RecipeDetails>>() {
-            @Override
-            public void onResponse(Call<List<RecipeDetails>> call, Response<List<RecipeDetails>> response) {
-                if (response.isSuccessful()) {
-                    List<RecipeDetails> recipeDetails = response.body();
-
-                    if (callback != null) {
-                        callback.onRecipeDetailsReceived(recipeDetails);
-                    }
-                } else {
-                    if (callback != null) {
-                        callback.onFailure("Response unsuccessful");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<RecipeDetails>> call, Throwable t) {
-                if (callback != null) {
-                    callback.onFailure(t.getMessage());
-                }
             }
         });
     }

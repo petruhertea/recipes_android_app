@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookcraft.R;
 import com.cookcraft.databinding.FragmentAvailableIngredientsBinding;
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
 import com.cookcraft.mvvm.IngredientViewModel;
 import com.cookcraft.recyclerview.AvailableIngredientAdapter;
 import com.google.android.gms.ads.AdListener;

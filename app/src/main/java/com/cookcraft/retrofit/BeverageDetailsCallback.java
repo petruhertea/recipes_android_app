@@ -1,6 +1,6 @@
 package com.cookcraft.retrofit;
 
-import com.cookcraft.models.BeverageDetails;
+import com.cookcraft.model.BeverageDetails;
 
 import java.util.List;
 

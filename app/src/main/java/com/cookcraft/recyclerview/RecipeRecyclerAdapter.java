@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookcraft.R;
-import com.cookcraft.models.RecipeDetails;
+import com.cookcraft.model.RecipeDetails;
 
 import java.util.List;
 

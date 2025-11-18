@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cookcraft.R;
-import com.cookcraft.models.BeverageDetails;
+import com.cookcraft.model.BeverageDetails;
 
 import java.util.List;
 

@@ -17,7 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.cookcraft.R;
 import com.cookcraft.databinding.FragmentAddIngredientBinding;
-import com.cookcraft.models.AvailableIngredient;
+import com.cookcraft.model.AvailableIngredient;
 import com.cookcraft.mvvm.IngredientViewModel;
 
 import java.util.Objects;

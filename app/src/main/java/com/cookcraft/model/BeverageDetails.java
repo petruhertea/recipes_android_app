@@ -1,4 +1,4 @@
-package com.cookcraft.models;
+package com.cookcraft.model;
 
 import com.google.gson.annotations.SerializedName;
 

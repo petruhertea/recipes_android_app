@@ -7,65 +7,86 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cookcraft.R;
 import com.cookcraft.model.BeverageDetails;
 
-import java.util.List;
+/**
+ * Adapter for the horizontal beverage suggestions list on the recipe detail screen.
+ *
+ * Uses DiffUtil + ListAdapter for efficient updates (replaces the old
+ * manual setBeverageDetailsList + notifyDataSetChanged pattern).
+ */
+public class BeverageRecyclerAdapter extends ListAdapter<BeverageDetails,
+        BeverageRecyclerAdapter.ViewHolder> {
 
-public class BeverageRecyclerAdapter extends RecyclerView.Adapter<BeverageRecyclerAdapter.ViewHolder> {
+    private static final DiffUtil.ItemCallback<BeverageDetails> DIFF =
+            new DiffUtil.ItemCallback<BeverageDetails>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull BeverageDetails o,
+                                               @NonNull BeverageDetails n) {
+                    return o.getId() == n.getId();
+                }
+                @Override
+                public boolean areContentsTheSame(@NonNull BeverageDetails o,
+                                                  @NonNull BeverageDetails n) {
+                    return o.getId() == n.getId()
+                            && safeEqual(o.getName(), n.getName())
+                            && safeEqual(o.getBeverageImage(), n.getBeverageImage());
+                }
+                private boolean safeEqual(String a, String b) {
+                    return a == null ? b == null : a.equals(b);
+                }
+            };
 
-    private List<BeverageDetails> beverageDetailsList;
-
-    public void setBeverageDetailsList(List<BeverageDetails> beverageDetails) {
-        this.beverageDetailsList = beverageDetails;
+    public BeverageRecyclerAdapter() {
+        super(DIFF);
     }
 
     @NonNull
     @Override
-    public BeverageRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_beverages, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_beverages, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BeverageRecyclerAdapter.ViewHolder holder, int position) {
-        BeverageDetails beverageDetails = beverageDetailsList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        BeverageDetails bev = getItem(position);
 
-        holder.getTvBeverageName().setText(beverageDetails.getBeverageSuggestions());
+        // Previously "beverageSuggestions" — now simply "name"
+        holder.tvBeverageName.setText(bev.getName());
 
-        Glide.with(holder.itemView.getContext()).load(beverageDetails.getBeverageImage().replace("localhost", "10.0.2.2")).override(150, 150)
-                .centerCrop().into(holder.getImgBeverage());
+        String imageUrl = bev.getBeverageImage();
+        if (imageUrl != null) {
+            imageUrl = imageUrl.replace("localhost", "10.0.2.2");
+        }
 
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .override(150, 150)
+                .centerCrop()
+                .placeholder(R.drawable.ic_baseline_question_mark_24)
+                .into(holder.imgBeverage);
+
+        holder.itemView.setContentDescription(bev.getName());
     }
 
-    @Override
-    public int getItemCount() {
-        return beverageDetailsList.size();
-    }
+    // ─── ViewHolder ───────────────────────────────────────────────────────
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        final TextView tvBeverageName;
+        final ImageView imgBeverage;
 
-        private final TextView tvBeverageName;
-        private final ImageView imgBeverage;
-
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            tvBeverageName = (TextView) itemView.findViewById(R.id.tvBeverageName);
-            imgBeverage = (ImageView) itemView.findViewById(R.id.imgBeverage);
-
-            itemView.setContentDescription(tvBeverageName.getText().toString());
-        }
-
-        public TextView getTvBeverageName() {
-            return tvBeverageName;
-        }
-
-        public ImageView getImgBeverage() {
-            return imgBeverage;
+            tvBeverageName = itemView.findViewById(R.id.tvBeverageName);
+            imgBeverage    = itemView.findViewById(R.id.imgBeverage);
         }
     }
 }

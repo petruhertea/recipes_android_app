@@ -4,8 +4,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Room entity for the offline recipe cache.
+ *
+ * The structured ingredients list from the API is serialised to a compact
+ * CSV string ("Făină: 500.0 g, Ouă: 3.0 buc.") for storage, then rebuilt
+ * into {@link RecipeDetails.IngredientLine} objects when the cache is read.
+ * See {@link RecipeDetails#ingredientsToString()} and
+ * {@link RecipeDetails#ingredientsFromString(String)}.
+ */
 @Entity(tableName = "cached_recipes")
 public class CachedRecipe {
+
     @PrimaryKey
     private int recipeID;
 
@@ -32,12 +42,12 @@ public class CachedRecipe {
     @ColumnInfo(name = "recipe_image")
     private String recipeImage;
 
+    /** Flat serialised form of List<IngredientLine>: "Name: qty unit, ..." */
     private String ingredients;
 
     @ColumnInfo(name = "cached_timestamp")
     private long cachedTimestamp;
 
-    // Constructor
     public CachedRecipe(int recipeID, String recipeTitle, String recipeDescription,
                         String recipeInstructions, int servings, int prepTimeMinutes,
                         int cookTimeMinutes, int totalTimeMinutes, String recipeImage,
@@ -55,92 +65,38 @@ public class CachedRecipe {
         this.cachedTimestamp = cachedTimestamp;
     }
 
-    // Getters and Setters
-    public int getRecipeID() {
-        return recipeID;
-    }
+    // ─── Getters & Setters ───────────────────────────────────────────────
 
-    public void setRecipeID(int recipeID) {
-        this.recipeID = recipeID;
-    }
+    public int getRecipeID()                          { return recipeID; }
+    public void setRecipeID(int recipeID)             { this.recipeID = recipeID; }
 
-    public String getRecipeTitle() {
-        return recipeTitle;
-    }
+    public String getRecipeTitle()                    { return recipeTitle; }
+    public void setRecipeTitle(String recipeTitle)    { this.recipeTitle = recipeTitle; }
 
-    public void setRecipeTitle(String recipeTitle) {
-        this.recipeTitle = recipeTitle;
-    }
+    public String getRecipeDescription()              { return recipeDescription; }
+    public void setRecipeDescription(String d)        { this.recipeDescription = d; }
 
-    public String getRecipeDescription() {
-        return recipeDescription;
-    }
+    public String getRecipeInstructions()             { return recipeInstructions; }
+    public void setRecipeInstructions(String i)       { this.recipeInstructions = i; }
 
-    public void setRecipeDescription(String recipeDescription) {
-        this.recipeDescription = recipeDescription;
-    }
+    public int getServings()                          { return servings; }
+    public void setServings(int servings)             { this.servings = servings; }
 
-    public String getRecipeInstructions() {
-        return recipeInstructions;
-    }
+    public int getPrepTimeMinutes()                   { return prepTimeMinutes; }
+    public void setPrepTimeMinutes(int v)             { this.prepTimeMinutes = v; }
 
-    public void setRecipeInstructions(String recipeInstructions) {
-        this.recipeInstructions = recipeInstructions;
-    }
+    public int getCookTimeMinutes()                   { return cookTimeMinutes; }
+    public void setCookTimeMinutes(int v)             { this.cookTimeMinutes = v; }
 
-    public int getServings() {
-        return servings;
-    }
+    public int getTotalTimeMinutes()                  { return totalTimeMinutes; }
+    public void setTotalTimeMinutes(int v)            { this.totalTimeMinutes = v; }
 
-    public void setServings(int servings) {
-        this.servings = servings;
-    }
+    public String getRecipeImage()                    { return recipeImage; }
+    public void setRecipeImage(String recipeImage)    { this.recipeImage = recipeImage; }
 
-    public int getPrepTimeMinutes() {
-        return prepTimeMinutes;
-    }
+    public String getIngredients()                    { return ingredients; }
+    public void setIngredients(String ingredients)    { this.ingredients = ingredients; }
 
-    public void setPrepTimeMinutes(int prepTimeMinutes) {
-        this.prepTimeMinutes = prepTimeMinutes;
-    }
-
-    public int getCookTimeMinutes() {
-        return cookTimeMinutes;
-    }
-
-    public void setCookTimeMinutes(int cookTimeMinutes) {
-        this.cookTimeMinutes = cookTimeMinutes;
-    }
-
-    public int getTotalTimeMinutes() {
-        return totalTimeMinutes;
-    }
-
-    public void setTotalTimeMinutes(int totalTimeMinutes) {
-        this.totalTimeMinutes = totalTimeMinutes;
-    }
-
-    public String getRecipeImage() {
-        return recipeImage;
-    }
-
-    public void setRecipeImage(String recipeImage) {
-        this.recipeImage = recipeImage;
-    }
-
-    public String getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public long getCachedTimestamp() {
-        return cachedTimestamp;
-    }
-
-    public void setCachedTimestamp(long cachedTimestamp) {
-        this.cachedTimestamp = cachedTimestamp;
-    }
+    public long getCachedTimestamp()                  { return cachedTimestamp; }
+    public void setCachedTimestamp(long ts)           { this.cachedTimestamp = ts; }
 }

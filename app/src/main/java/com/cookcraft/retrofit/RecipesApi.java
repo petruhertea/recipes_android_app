@@ -23,6 +23,6 @@ public interface RecipesApi {
     @GET("/api/v1/recipes/{recipeID}")
     Call<RecipeDetails> getRecipeByID(@Path("recipeID") Integer recipeID);
 
-    @POST("/api/v1/recipes/byIngredients")
+    @POST("/api/v1/recipes/by-ingredients")
     Call<List<RecipeDetails>> postRecipesByIngredients(@Body Map<String, IngredientDetails> ingredients);
 }

@@ -2,35 +2,33 @@ package com.cookcraft.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * API response model for a beverage suggestion.
+ *
+ * Matches the backend BeverageDTO shape:
+ *   - "id"           → id
+ *   - "name"         → name          (was "beverageSuggestions" / "recipeID")
+ *   - "beverageImage"→ beverageImage
+ */
 public class BeverageDetails {
-    @SerializedName("recipeID")
-    private int recipeID;
-    @SerializedName("beverageSuggestions")
-    private String beverageSuggestions;
+
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("name")
+    private String name;
+
     @SerializedName("beverageImage")
     private String beverageImage;
 
-    public int getRecipeID() {
-        return recipeID;
-    }
+    public BeverageDetails() {}
 
-    public void setRecipeID(int recipeID) {
-        this.recipeID = recipeID;
-    }
+    public int getId()              { return id; }
+    public void setId(int id)       { this.id = id; }
 
-    public String getBeverageSuggestions() {
-        return beverageSuggestions;
-    }
+    public String getName()         { return name; }
+    public void setName(String name){ this.name = name; }
 
-    public void setBeverageSuggestions(String beverageSuggestions) {
-        this.beverageSuggestions = beverageSuggestions;
-    }
-
-    public String getBeverageImage() {
-        return beverageImage;
-    }
-
-    public void setBeverageImage(String beverageImage) {
-        this.beverageImage = beverageImage;
-    }
+    public String getBeverageImage()              { return beverageImage; }
+    public void setBeverageImage(String beverageImage) { this.beverageImage = beverageImage; }
 }
